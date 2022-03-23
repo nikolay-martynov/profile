@@ -97,7 +97,7 @@ image:author-certificate-fips.jpg[Authorship certificate for software for accoun
 * Developed and introduced into commercial operation software complex "Print server", providing control and accounting for consumption of paper and ink in multi-user environment.
 --
 
-== Licenses & certifications & courses & education
+== Licenses & awards & certifications & courses & education
 
 * link:https://www.credly.com/badges/c5d49fdb-6bb7-45cb-96e0-e78bc0290d9a[LFD259: Kubernetes for Developers]
 ** February 2022
@@ -107,18 +107,30 @@ image:author-certificate-fips.jpg[Authorship certificate for software for accoun
 ** October 2021
 ** Earners of the LFD254: Containers for Developers and Quality Assurance badge understand the open container ecosystem and know how to run, operate and troubleshoot containers. They build container images and use tools such as Buildah, Podman and Skopeo. They know the basics of container networking and different storage concepts. They also know how to build and deploy a microservices stack with Docker Compose and how to deploy containers in production. They are familiar with Kubernetes and Tekton.
 
-** link:https://www.credly.com/badges/5adf08ce-8d39-41ef-832a-c3ad70db04a1[LFC191: Open Source Licensing Basics for Software Developers]
+* link:https://www.credly.com/badges/5adf08ce-8d39-41ef-832a-c3ad70db04a1[LFC191: Open Source Licensing Basics for Software Developers]
 ** September 2021
 ** Earners of the LFC191: Open Source Licensing Basics for Software Developers badge possess a good working knowledge of open source licensing and compliance. They can distinguish the different types of licenses and permissions, and are able to create file notices with copyrights and licenses.
 
+* Agile Project Management: P&G Certified Scrum Master
+** January 2015
+** Internal certification in Hewlett-Packard
+
+* HP Application and Business Services Leading the Way Rock Star
+** July 2013
+** Silver winner in category "Highly capable & innovative"
+
+* Red Hat JBoss Fuse with Red Hat JBoss A-MQ and CamelRed Hat JBoss Fuse with Red Hat JBoss A-MQ and Camel
+** October 2012
+** JB439
+
 * Sun Certified Programmer for the Java 2 Platform 1.4
-** Prometric
 ** August 2007
+** Prometric
 
 * Moscow Power Engineering Institute (Technical University)
+** 2000 - 2006
 ** Master of Engineering (M.Eng.)
 ** Information Technology
-** 2000 - 2006
 ** Studied engineering and nondestructive testing specializing in usage of neural networks for analysis of data coming from magnetic and eddy current testers.
 
 == Skills
