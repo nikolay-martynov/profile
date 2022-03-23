@@ -8,6 +8,7 @@ toc::[]
 
 == Blog and events
 
+
 == Experience & career events
 
 === Hewlett Packard Enterprise
@@ -59,7 +60,66 @@ Defining and implementing technology strategy in a subdivision working in the fi
 image:author-certificate-fips.jpg[Authorship certificate for software for accounting results of monitoring and oversight of results of research activities,300]
 --
 
-== Licenses & certifications & courses
+=== Intersoft Lab
+* Web developer, part time (January 2005 - May 2006, 1 year 5 months)
++
+--
+* Improving web portal engine (python, MySQL); adapting and deploying content to websites (HTML, CSS, Bash); administrating web servers (mandriva linux, httpd, mysqld, proftpd); analyzing and preventing security threats (nvd nist/secunia, snort, tripwire); developing accompanying software (bash, python).
+--
+
+=== Ambiz Inc
+* Programmer, part time (October 2004 - October 2005, 1 year 1 month)
++
+--
+* Developing website (php, MySQL); developing software for business process automation (bash, c++, wbat); administrating workstations (windows, gentoo linux); user support.
+* Developed and introduced into commercial operation web based catalog of products. Developed and introduced into commercial operation software for recording telephone conversations with customers.
+--
+
+=== State Educational Institution School 489
+* Information and computer technology teacher, part time (September 2003 - July 2004, 11 months)
++
+--
+* Urgently hired to substitute regular teacher that has left the school. I was responsible for teaching 8th class students the basics of computer science including computer structure and basics of microelectronics, number systems and arithmetic coding, algorithms and programming languages.
+--
+
+=== Intron Plus Ltd
+* Junior Programmer, part time (September 2002 - December 2003, 1 year 4 months)
++
+--
+* Developing subsystem for data input, clustering and storage (c++).
+--
+
+=== Moscow Power Engineering Institute (Technical University)
+* Laboratory assistant, part time (September 2001 - August 2002, 1 year)
++
+--
+* Developing software (c++, bash, alt linux).
+* Developed and introduced into commercial operation software complex "Print server", providing control and accounting for consumption of paper and ink in multi-user environment.
+--
+
+== Licenses & certifications & courses & education
+
+* link:https://www.credly.com/badges/c5d49fdb-6bb7-45cb-96e0-e78bc0290d9a[LFD259: Kubernetes for Developers]
+** February 2022
+** Earners of the LFD259: Kubernetes for Developers badge can containerize, host, deploy, and configure an application in a multi-node cluster. They can also define application resources and use core primitives to build, monitor and troubleshoot scalable applications in Kubernetes using a simple Python script. These candidates have experience working with network plugins, security and cloud storage, and understand the many features needed to deploy an application in a production environment.
+
+* link:https://www.credly.com/badges/4a7895c7-c2d3-4a1e-8487-bef0e0b42688[LFD254: Containers for Developers and Quality Assurance]
+** October 2021
+** Earners of the LFD254: Containers for Developers and Quality Assurance badge understand the open container ecosystem and know how to run, operate and troubleshoot containers. They build container images and use tools such as Buildah, Podman and Skopeo. They know the basics of container networking and different storage concepts. They also know how to build and deploy a microservices stack with Docker Compose and how to deploy containers in production. They are familiar with Kubernetes and Tekton.
+
+** link:https://www.credly.com/badges/5adf08ce-8d39-41ef-832a-c3ad70db04a1[LFC191: Open Source Licensing Basics for Software Developers]
+** September 2021
+** Earners of the LFC191: Open Source Licensing Basics for Software Developers badge possess a good working knowledge of open source licensing and compliance. They can distinguish the different types of licenses and permissions, and are able to create file notices with copyrights and licenses.
+
+* Sun Certified Programmer for the Java 2 Platform 1.4
+** Prometric
+** August 2007
+
+* Moscow Power Engineering Institute (Technical University)
+** Master of Engineering (M.Eng.)
+** Information Technology
+** 2000 - 2006
+** Studied engineering and nondestructive testing specializing in usage of neural networks for analysis of data coming from magnetic and eddy current testers.
 
 == Skills
 
