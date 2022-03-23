@@ -97,7 +97,7 @@ image:author-certificate-fips.jpg[Authorship certificate for software for accoun
 * Developed and introduced into commercial operation software complex "Print server", providing control and accounting for consumption of paper and ink in multi-user environment.
 --
 
-== Licenses & awards & certifications & courses & education
+== Awards & certifications & courses & education
 
 * link:https://www.credly.com/badges/c5d49fdb-6bb7-45cb-96e0-e78bc0290d9a[LFD259: Kubernetes for Developers]
 ** February 2022
@@ -137,6 +137,55 @@ image:author-certificate-fips.jpg[Authorship certificate for software for accoun
 ** Information Technology
 ** Studied engineering and nondestructive testing specializing in usage of neural networks for analysis of data coming from magnetic and eddy current testers.
 
+== Extra information
+
+* My GitHub link:https://github.com/nikolay-martynov[contributions overview]
+* My LinkedIn link:https://www.linkedin.com/in/nikolaymartynov/[profile]
+* My Credly link:https://www.credly.com/users/nikolay-martynov[badges]
+* My VK link:https://vk.com/nikolay.s.martynov[profile]
+* My OK link:https://ok.ru/nikolay.s.martynov[profile]
+
 == Skills
 
+In order of peers recognition per LinkedIn:
 
+* Java
+* Software Development
+* Process Improvement
+* Design Patterns
+* Unix Shell Scripting
+* Team Leadership
+* Linux
+* Unix
+* HP-UX
+* Telecommunications
+* C++
+* Integration
+* Solution Architecture
+* Unit Testing
+* System Testing
+* Functional Testing
+* Load Testing
+* XML
+* XSD
+* XSLT
+* Perl
+* Kaizen
+* Agile Application Development
+* Scrum
+* Kanban
+* EIP
+* System Architecture
+* Software Design
+* Groovy
+* Swing
+* POSIX
+* OpenStack
+* Remote Troubleshooting
+* Technical Support
+* Automated Software Testing
+* Mock
+* System Integration Testing
+* Technical Hiring
+* Knowledge Management
+* Bash
