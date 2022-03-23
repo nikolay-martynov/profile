@@ -54,6 +54,9 @@ Defining and implementing technology strategy in a subdivision working in the fi
 --
 * Analyzing technological processes; developing software for jobs automation (Java, swing, derby); examining works performed by contractors; maintaining software and hardware systems used in technological processes; developing control and accounting system (proprietary platform).
 * Developed and introduced into commercial operation software complex for jobs automation. Developed and introduced into commercial operation software for accounting results of monitoring and oversight of results of research activities.
++
+[link=author-certificate-fips.jpg]
+image:author-certificate-fips.jpg[Authorship certificate for software for accounting results of monitoring and oversight of results of research activities,300]
 --
 
 == Licenses & certifications & courses
