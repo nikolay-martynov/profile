@@ -123,9 +123,9 @@ image:author-certificate-fips.jpg[Authorship certificate for software for accoun
 ** July 2013
 ** Silver winner in category "Highly capable & innovative"
 
-* Red Hat JBoss Fuse with Red Hat JBoss A-MQ and CamelRed Hat JBoss Fuse with Red Hat JBoss A-MQ and Camel
+* JB439: Red Hat JBoss Fuse with Red Hat JBoss A-MQ and Camel
 ** October 2012
-** JB439
+** Red Hat® JBoss® Fuse Rapid Track (JB439) is a 5-day course that gives Java™ developers, architects, and Red Hat JBoss Fuse administrators an understanding of Red Hat JBoss Fuse, Red Hat JBoss A-MQ (Java Messaging Service broker), and Apache Camel.
 
 * Sun Certified Programmer for the Java 2 Platform 1.4
 ** August 2007
