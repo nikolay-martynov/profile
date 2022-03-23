@@ -111,6 +111,10 @@ image:author-certificate-fips.jpg[Authorship certificate for software for accoun
 ** September 2021
 ** Earners of the LFC191: Open Source Licensing Basics for Software Developers badge possess a good working knowledge of open source licensing and compliance. They can distinguish the different types of licenses and permissions, and are able to create file notices with copyrights and licenses.
 
+* link:https://archiveprogram.github.com/[Arctic Code Vault Contributor]
+** February 2020
+** Contributed code to link:https://github.com/HewlettPackard/phased-table-translation[HewlettPackard/phased-table-translation] in the 2020 GitHub Archive Program
+
 * Agile Project Management: P&G Certified Scrum Master
 ** January 2015
 ** Internal certification in Hewlett-Packard
