@@ -8,6 +8,11 @@ toc::[]
 
 == Blog and events
 
+Latest posts:
+
+* link:blog/2009-02-03-Utility_classes_vs_Objects.adoc[Utility classes vs Objects]
+
+link:blog[List of all posts]
 
 == Experience & career events
 

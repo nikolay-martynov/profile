@@ -1,0 +1,111 @@
+== Utility classes vs Objects
+
+_2009-02-03_
+
+Sometimes there is a situation when you may consider that some class has too many responsibilities. Often you see that class is large, it has many methods or there are few methods, but they are long, or you just don`t like that there are 1000 or even more lines in a file. Also, there are often situation when some code from one class also needs to be used in another class. In this later situation "Copy&Paste" method may be used. Sure it is the simplest solution. But we know what would happen to system that is written this way to some degree. I like in those situations to transfer code somewhere else.
+
+First, there should be kind of universal code that is not bound by current class. For example, code should not depend on instance variables. One may use *extract variable* to make code depend on local variables that depends on instance variables. Later, when you convert such local variables into method`s parameters this method becomes isolated from class and can be moved to another class. What is important here is that you may decide to convert method`s parameters back to instance variables after method is moved to new class.
+
+Refactoring is interesting subject and there is much more to do to be able to successfully move method to another class. But I would like to talk about something different. Important question here is *where to move method*?. Easiest answer is super class of two classes that needs to share same code. Easiest isn`t always best. I will not try to discuss here why one should prefer to use inheritance to represent *one of* relationship instead of to have easy access to methods in super class. So next option is to delegate job to some other object. Let`s look at example. This is initial code.
+
+[source,java]
+----
+public class Soup {
+
+    private double mass;
+
+    private double fatPercentage;
+    private double carbohydratesPercentage;
+    private double proteinPecentage;
+
+    public double calculateCalorieContent() {
+        return mass / 100 *
+                (fatPercentage * 20 +
+                carbohydratesPercentage * 5 +
+                proteinPecentage * 7);
+    }
+}
+----
+
+Next we extract class that will do common job of calculating calorie content.
+
+[source,java]
+----
+public class CalorieCalculator {
+
+    private final int fatFactor = 20;
+    private final int carbohydratesFactor = 5;
+    private final int proteinFactor = 7;
+
+    public double calculateCalorieContentPer100g(
+            double fatPercentage,
+            double carbohydratesPercentage,
+            double proteinPecentage) {
+        return (fatPercentage * fatFactor +
+                carbohydratesPercentage * carbohydratesFactor +
+                proteinPecentage * proteinFactor);
+    }
+}
+----
+
+I have intentionally made `fatPercentage` and other specifics as method`s parameters to keep ability to make this class static. Often you don`t need and should not keep instance variables in new class as they were in old. Now we change `Soup` to use new class:
+
+[source,java]
+----
+public class Soup {
+
+    private double mass;
+
+    private double fatPercentage;
+    private double carbohydratesPercentage;
+    private double proteinPecentage;
+
+    private final CalorieCalculator calorieCalculator = new CalorieCalculator();
+
+    public double calculateCalorieContent() {
+        return mass / 100 *
+                calorieCalculator.calculateCalorieContentPer100g(
+                fatPercentage,
+                carbohydratesPercentage,
+                proteinPecentage);
+    }
+}
+----
+
+As you can see there is nasty `calorieCalculator` variable that needs to be declared and initialized. Now there is need to call constructor and performance penalty! I have excellent idea. Let`s make it *utility class with only static methods*!
+
+[source,bash]
+----
+public class Soup {
+
+    private double mass;
+
+    private double fatPercentage;
+    private double carbohydratesPercentage;
+    private double proteinPecentage;
+
+    public double calculateCalorieContent() {
+        return mass / 100 *
+                CalorieCalculator.calculateCalorieContentPer100g(
+                fatPercentage,
+                carbohydratesPercentage,
+                proteinPecentage);
+    }
+}
+----
+
+Wow! It's much simpler, shorter, better! Is it? Actually I don`t think so. First of all, I should mention that there is need to do some work to convert normal class to utility class with only static methods:
+
+. add private constructor so no one misunderstand you and try to use it wrong way
+. add <code>static</code> keyword to methods
+. remove declaration and initialization of variable that was holding object
+. replace references to that variable with class name
+
+A lot of work was done! But what we actually got?
+
+* Now there is no way to change way this method works in `Soup`. Before we had many possibilities: we were able to make constructor that sets `fatFactor` for example; we were able to remove <code>final</code> keyword and add a setter for `fatFactor`; we were able to *introduce method* `getFatFactor()`, make it protected and override it in anonymous subclass used by `Soup`; we were able to introduce some another protected method to change way `calculateCalorieContentPer100g` works. Have we done a lot of work just to lose these abilities?
+* Now we are bound to `CalorieCalculator` and there is no easy way to replace it with something different. Before we had may possibilities: we were able to remove `final` keyword from `calorieCalculator` and add a setter for it so subclasses or class that uses our could influence our behavior; we were able to *extract interface* from `CalorieCalculator` and use something like *Spring* to configure `Soup`! Have we done a lot of work just to lose these abilities?
+
+Giving up *object-oriented programming* and returning to *functional programming* does not necessarily make things easier or better. One should really think if it is absolutely necessary before converting class to *utility class with only static methods*.
+Someone may disagree: there is no instance variables in that class, it has no state, this isn`t object, this is just *helper class*.
+I would like to ask those people: "what is *helper class*? who have told to you that you should prefer such thing?". I have checked classic Grady Booch`s "Object-oriented analysis and design with applications". There is 1 page about utility classes in more than 500 pages book. It does not tell you should prefer utility classes, it does not tell you should add them here and there. If you would ask me, I would tell that first you need to read something like link:https://docs.microsoft.com/en-us/archive/blogs/nickmalik/are-helper-classes-evil[Inside Architecture : Are Helper Classes Evil?] and then decide if you really should convert some class to utility class.
