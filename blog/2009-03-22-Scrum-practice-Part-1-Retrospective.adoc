@@ -1,0 +1,31 @@
+= Scrum practice. Part 1: Retrospective
+
+_2009-03-22_
+
+.Retrospective
+
+. Retrospective should take place after every sprint. No matter what happens. There will always be new impediments next sprint. If you don't identify and remove old ones then it will be twice harder to achieve goals.
+. Scrum master should never say "That`s not a problem" during discussion or (worse) during impediments identification. Scrum master is a servant of a team. Scrum master should help team. If team member says that something interferes her work then probably it is so. It is better to remove that impediment or at least discuss why it can not or should not be removed (it should be explained to one who identified that impediment, not just "That`s not a problem").
+. Some sources tell that it is enough to just identify problems, that there is no need to discuss way to avoid them. Scrum master may say that there is a time limit and only 5 problems out of 30 will be discussed. Of course this will save time for retrospective. But will this really help? 25 impediments (that left unsolved) will slow down team during a sprint. There will be lost much more time than it was saved during retrospective. Instead, Scrum master should try to keep team focused during retrospective. That will save time both during discussion and during next sprint (because there will be less impediments).</li><li>Some sources tells that during retrospectives questions raised should be classified by three types: what was good, what was good but should be improved, what was totally wrong. I find that such bureaucracy just steals team`s time during discussion. One may say that something was good. Another complains that it should be improved. Or one say that something was wrong and another complains that it was better than last time, so it should be labeled "good but needs improvement". That leads to dispute without giving any value. It is much simpler and faster to divide things into: good and bad. Most of the time good things don`t even need discussion. It is like saying that somebody did something good and team should stick with that. Bad things are any things that needs improvement and any things that interfere team`s work.
+. Decisions made during retrospectives should not be forgotten. Also it should be clear which impediment is addressed by which decision. All team members should be informed of problems and solutions (even those that had no chance to participate to retrospective). Sometimes there is need to take look at past decisions. Also, it is helpful to share results of retrospectives with another teams. I find that it is best to:<ol><li>Write down enumerated list of good and bad things.
+. For every bad thing write down  solution with same number (there may be many solutions for one problem and one solution may cover several problems).
+. Create a document in the following form:
++
+[source]
+----
+Retrospective for sprint N of team Z
+- 1 Bad thing
+Solution
+
+- 2 Bad thing
+Solution
+
++ 3 Good thing
+Promise to keep doing same
+
+- 4 Bad thing
+Solution
+----
+. Email this document (do not attach the file, just put text into email body) to every team member and possibly to other friendly teams.
+. Print this document and stick it to wall in team`s room.
+. Put this document in project`s wiki. This way any team member at any time will know how to avoid the problem that team saw already. This way any team member at any time will be able to say "We have decision. We should do it that way." It will be much easier for team to follow own decisions. This will help team to prevent situations during retrospectives when someone remembers that there was some decision about current impediment few retrospectives ago.

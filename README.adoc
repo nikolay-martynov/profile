@@ -10,6 +10,7 @@ toc::[]
 
 Latest posts:
 
+* link:blog/2009-03-22-Scrum-practice-Part-1-Retrospective.adoc[Scrum practice. Part 1: Retrospective]
 * link:blog/2009-02-03-Utility_classes_vs_Objects.adoc[Utility classes vs Objects]
 
 link:blog[List of all posts]
