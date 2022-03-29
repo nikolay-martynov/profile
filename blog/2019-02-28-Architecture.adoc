@@ -1,0 +1,23 @@
+= Architecture?
+
+image::../images/arch-0.jpg[https://en.wikipedia.org,600]
+
+Why would one need an architect when you can have a meeting to discover and decide all technical aspects by a council?
+
+image::../images/arch-1.jpg[,600]
+
+Why would you want a link:https://www.scaledagileframework.com/vision/[vision], link:https://www.scaledagileframework.com/solution-context/[context], link:https://www.scaledagileframework.com/solution-intent/[intent], link:https://www.scaledagileframework.com/story/[stories], link:https://www.scaledagileframework.com/nonfunctional-requirements/[NFRs] and link:https://www.scaledagileframework.com/model-based-systems-engineering/[models] when you can have a PowerPoint slide that describes the system perfectly?
+
+image::../images/arch-2.gif[,600]
+
+Who would need a link:https://www.scaledagileframework.com/set-based-design/[set-based design] when a good manager can make a proper technical decision?
+
+image::../images/arch-3.jpg[,600]
+
+Why would one want to dedicate "resources" when architecture is a waste anyway?
+
+image::../images/arch-4.jpg[,600]
+
+Stop wasting your time! Silly questions don't get you closer to production. Start coding today instead.
+
+image::../images/arch-5.jpg[,600]
