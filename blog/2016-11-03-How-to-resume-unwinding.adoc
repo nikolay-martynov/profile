@@ -1,0 +1,352 @@
+= How to resume unwinding
+
+_2016-11-03_
+
+Core dump with `_Unwind_Resume` seems to be a rare beast. At least I wasn't very familiar with how it works. From the `_Unwind` part one can imagine that stack unwinding was in effect and this means exception handling. This means that at least there was some try/catch block involved. However, what does `_Resume` part mean?
+
+That took me really an effort to figure out. The reason is that it's not so obvious how to get `_Unwind_Resume`. I've ended either in plain `terminate()` or `_Unwind_RaiseException` whenever I tried to generate it on purpose. The thing became obvious after refactoring this example. Here's the minimal code that illustrates `_Unwind_Resume`:
+
+
+[source,c++]
+--
+#include <iostream>
+#include <stdexcept>
+
+class Inner {
+public:
+   ~Inner() {
+       std::cout << "inner destructor" << std::endl;
+   }
+};
+
+class Outer {
+private:
+   Inner inner;
+public:
+   ~Outer() {
+       std::cout << "outer destructor" << std::endl;
+       throw std::runtime_error("exception from destructor");
+   };
+};
+
+int main() {
+   try {
+       Outer a;
+       throw std::runtime_error("exception from code block");
+   } catch (std::exception& e) {
+       std::cout << "exception was: " << e.what() << std::endl;
+   }
+}
+--
+
+Output:
+
+[source,console]
+--
+outer destructor
+inner destructor
+terminate called after throwing an instance of 'std::runtime_error'
+ what(): exception from destructor
+/bin/sh: line 1: 11837 Aborted                (core dumped) ./cppapplication_1
+--
+
+Stack
+
+[source,console]
+--
+#0 0x00007f9f60f9c5f7 in __GI_raise (sig=sig@entry=6) at ../nptl/sysdeps/unix/sysv/linux/raise.c:56
+
+56    return INLINE_SYSCALL (tgkill, 3, pid, selftid, sig);
+
+#0 0x00007f9f60f9c5f7 in __GI_raise (sig=sig@entry=6) at ../nptl/sysdeps/unix/sysv/linux/raise.c:56
+
+#1 0x00007f9f60f9dce8 in __GI_abort () at abort.c:90
+
+#2 0x00007f9f618a19d5 in __gnu_cxx::__verbose_terminate_handler () at ../../../../libstdc++-v3/libsupc++/vterminate.cc:95
+
+#3 0x00007f9f6189f946 in __cxxabiv1::__terminate (handler=<optimized out>) at ../../../../libstdc++-v3/libsupc++/eh_terminate.cc:38
+
+#4 0x00007f9f6189e909 in __cxa_call_terminate (ue_header=0xd73150) at ../../../../libstdc++-v3/libsupc++/eh_call.cc:54
+
+#5 0x00007f9f6189f574 in __cxxabiv1::__gxx_personality_v0 (version=<optimized out>, actions=<optimized out>, exception_class=<optimized out>, ue_header=<optimized out>, context=<optimized out>) at ../../../../libstdc++-v3/libsupc++/eh_personality.cc:676
+
+#6 0x00007f9f61338903 in _Unwind_RaiseException_Phase2 (exc=exc@entry=0xd73150, context=context@entry=0x7ffde8a1f430) at ../../../libgcc/unwind.inc:62
+
+#7 0x00007f9f61338e37 in _Unwind_Resume (exc=0xd73150) at ../../../libgcc/unwind.inc:230
+
+#8 0x0000000000401067 in Outer::~Outer (this=0x7ffde8a1f5bf, __in_chrg=<optimized out>) at main.cpp:17
+
+#9 0x0000000000400e84 in main () at main.cpp:26
+--
+
+What happens is the following:
+
+. Code block in `main()` throws but there's an object `a` that needs to be destructed
+. `a` 's destructor throws as well when called but there's still object `inner` that needs to be destructed too
+. `inner` 's destructor is called despite the unhandled exception from a's destructor
+. `a` 's exception processing continues after executing cleanup code
+. Since there's no handler for `a` 's exception `terminate()` is called
+
+Step #4 is the actual `_Resume` frame.
+
+So you can see `_Unwind_Resume` when destructor throws and an object has a member with destructor. If there is no member with destructor when outer destructor throws then it'll be a regular `_Unwind_RaiseException`:
+
+[source,c++]
+--
+#include <iostream>
+#include <stdexcept>
+
+class Inner {
+public:
+   ~Inner() {
+       std::cout << "inner destructor" << std::endl;
+   }
+};
+
+class Outer {
+private:
+   //Inner inner;
+public:
+   ~Outer() {
+       std::cout << "outer destructor" << std::endl;
+       throw std::runtime_error("exception from destructor");
+   };
+};
+
+int main() {
+   try {
+       Outer a;
+       throw std::runtime_error("exception from code block");
+   } catch (std::exception& e) {
+       std::cout << "exception was: " << e.what() << std::endl;
+   }
+}
+--
+
+Output
+
+[source]
+--
+outer destructor
+terminate called after throwing an instance of 'std::runtime_error'
+ what(): exception from destructor
+/bin/sh: line 1: 11909 Aborted                (core dumped) ./cppapplication_1
+--
+
+Stack
+
+[source]
+--
+#0 0x00007fa5947545f7 in __GI_raise (sig=sig@entry=6) at ../nptl/sysdeps/unix/sysv/linux/raise.c:56
+
+56    return INLINE_SYSCALL (tgkill, 3, pid, selftid, sig);
+
+#0 0x00007fa5947545f7 in __GI_raise (sig=sig@entry=6) at ../nptl/sysdeps/unix/sysv/linux/raise.c:56
+
+#1 0x00007fa594755ce8 in __GI_abort () at abort.c:90
+
+#2 0x00007fa5950599d5 in __gnu_cxx::__verbose_terminate_handler () at ../../../../libstdc++-v3/libsupc++/vterminate.cc:95
+
+#3 0x00007fa595057946 in __cxxabiv1::__terminate (handler=<optimized out>) at ../../../../libstdc++-v3/libsupc++/eh_terminate.cc:38
+
+#4 0x00007fa595056909 in __cxa_call_terminate (ue_header=0xaa3150) at ../../../../libstdc++-v3/libsupc++/eh_call.cc:54
+
+#5 0x00007fa595057574 in __cxxabiv1::__gxx_personality_v0 (version=<optimized out>, actions=<optimized out>, exception_class=<optimized out>, ue_header=<optimized out>, context=<optimized out>) at ../../../../libstdc++-v3/libsupc++/eh_personality.cc:676
+
+#6 0x00007fa594af0903 in _Unwind_RaiseException_Phase2 (exc=exc@entry=0xaa3150, context=context@entry=0x7ffe4aa94e40) at ../../../libgcc/unwind.inc:62
+
+#7 0x00007fa594af0c9b in _Unwind_RaiseException (exc=0xaa3150) at ../../../libgcc/unwind.inc:131
+
+#8 0x00007fa595057b86 in __cxxabiv1::__cxa_throw (obj=0xaa3170, tinfo=0x6020e0 <_ZTISt13runtime_error@@GLIBCXX_3.4>, dest=0x400c40 <_ZNSt13runtime_errorD1Ev@plt>) at ../../../../libstdc++-v3/libsupc++/eh_throw.cc:82
+
+#9 0x0000000000400ff6 in Outer::~Outer (this=0x7ffe4aa9516f, __in_chrg=<optimized out>) at main.cpp:19
+
+#10 0x0000000000400e84 in main () at main.cpp:26
+--
+
+There's no additional cleanup code in `Outer` so no `_Unwind_Resume` here. `_Unwind_RaiseException` here means we got an exception while unwinding the stack (handling another exception).
+
+Why to bother with cleanup if we got `terminate()` anyway? Well, would we properly catch exceptions we throw then we could continue proper execution. Cleanup will ensure we don't leak resources. Otherwise, wouldn't be able to continue for long even after catching the exception and re-trying or denying the operation. The following example illustrates we can cleanup, recover and continue:
+
+[source,c++]
+--
+#include <iostream>
+#include <stdexcept>
+
+class Inner {
+public:
+   ~Inner() {
+       std::cout << "inner destructor" << std::endl;
+   }
+};
+
+class Outer {
+private:
+   Inner inner;
+public:
+   ~Outer() {
+       std::cout << "outer destructor" << std::endl;
+       throw std::runtime_error("exception from destructor");
+   };
+};
+
+int main() {
+   try {
+       Outer a;
+       //throw std::runtime_error("exception from code block");
+   } catch (std::exception& e) {
+       std::cout << "exception was: " << e.what() << std::endl;
+   }
+}
+--
+
+Output
+
+[source]
+--
+outer destructor
+inner destructor
+exception was: exception from destructor
+--
+
+Here we catch everything we throw, all destructors are called and so we can continue operating thanks to proper stack unwinding. Of course, if there are no handlers (try/catch) then we'll get a straight `terminate()`:
+
+[source,c++]
+--
+#include <iostream>
+#include <stdexcept>
+
+class Inner {
+public:
+   ~Inner() {
+       std::cout << "inner destructor" << std::endl;
+   }
+};
+
+class Outer {
+private:
+   Inner inner;
+public:
+   ~Outer() {
+       std::cout << "outer destructor" << std::endl;
+       throw std::runtime_error("exception from destructor");
+   };
+};
+
+int main() {
+//   try {
+       Outer a;
+       throw std::runtime_error("exception from code block");
+//   } catch (std::exception& e) {
+//       std::cout << "exception was: " << e.what() << std::endl;
+//   }
+}
+--
+
+Output
+
+[source]
+--
+terminate called after throwing an instance of 'std::runtime_error'
+ what(): exception from code block
+/bin/sh: line 1: 4818 Aborted                (core dumped) ./cppapplication_1
+--
+
+Stack
+
+[source]
+--
+#0 0x00007fa6735a95f7 in __GI_raise (sig=sig@entry=6) at ../nptl/sysdeps/unix/sysv/linux/raise.c:56
+
+56    return INLINE_SYSCALL (tgkill, 3, pid, selftid, sig);
+
+#0 0x00007fa6735a95f7 in __GI_raise (sig=sig@entry=6) at ../nptl/sysdeps/unix/sysv/linux/raise.c:56
+
+#1 0x00007fa6735aace8 in __GI_abort () at abort.c:90
+
+#2 0x00007fa673eae9d5 in __gnu_cxx::__verbose_terminate_handler () at ../../../../libstdc++-v3/libsupc++/vterminate.cc:95
+
+#3 0x00007fa673eac946 in __cxxabiv1::__terminate (handler=<optimized out>) at ../../../../libstdc++-v3/libsupc++/eh_terminate.cc:38
+
+#4 0x00007fa673eac973 in std::terminate () at ../../../../libstdc++-v3/libsupc++/eh_terminate.cc:48
+
+#5 0x00007fa673eacb93 in __cxxabiv1::__cxa_throw (obj=0x9fa090, tinfo=0x6020c0 <_ZTISt13runtime_error@@GLIBCXX_3.4>, dest=0x400b80 <_ZNSt13runtime_errorD1Ev@plt>) at ../../../../libstdc++-v3/libsupc++/eh_throw.cc:87
+
+#6 0x0000000000400d52 in main () at main.cpp:26
+--
+
+
+The same thing happens if we throw from destructor while there are no handlers:
+
+[source,c++]
+--
+#include <iostream>
+#include <stdexcept>
+
+class Inner {
+public:
+   ~Inner() {
+       std::cout << "inner destructor" << std::endl;
+   }
+};
+
+class Outer {
+private:
+   Inner inner;
+public:
+   ~Outer() {
+       std::cout << "outer destructor" << std::endl;
+       throw std::runtime_error("exception from destructor");
+   };
+};
+
+int main() {
+//   try {
+       Outer a;
+       //throw std::runtime_error("exception from code block");
+//   } catch (std::exception& e) {
+//       std::cout << "exception was: " << e.what() << std::endl;
+//   }
+}
+--
+
+Output
+
+[source]
+--
+outer destructor
+terminate called after throwing an instance of 'std::runtime_error'
+ what(): exception from destructor
+/bin/sh: line 1: 5593 Aborted                (core dumped) ./cppapplication_1
+--
+
+Stack
+
+[source]
+--
+#0 0x00007fe0274c15f7 in __GI_raise (sig=sig@entry=6) at ../nptl/sysdeps/unix/sysv/linux/raise.c:56
+
+56    return INLINE_SYSCALL (tgkill, 3, pid, selftid, sig);
+
+#0 0x00007fe0274c15f7 in __GI_raise (sig=sig@entry=6) at ../nptl/sysdeps/unix/sysv/linux/raise.c:56
+
+#1 0x00007fe0274c2ce8 in __GI_abort () at abort.c:90
+
+#2 0x00007fe027dc69d5 in __gnu_cxx::__verbose_terminate_handler () at ../../../../libstdc++-v3/libsupc++/vterminate.cc:95
+
+#3 0x00007fe027dc4946 in __cxxabiv1::__terminate (handler=<optimized out>) at ../../../../libstdc++-v3/libsupc++/eh_terminate.cc:38
+
+#4 0x00007fe027dc4973 in std::terminate () at ../../../../libstdc++-v3/libsupc++/eh_terminate.cc:48
+
+#5 0x00007fe027dc4b93 in __cxxabiv1::__cxa_throw (obj=0xec1090, tinfo=0x6020c0 <_ZTISt13runtime_error@@GLIBCXX_3.4>, dest=0x400b80 <_ZNSt13runtime_errorD1Ev@plt>) at ../../../../libstdc++-v3/libsupc++/eh_throw.cc:87
+
+#6 0x0000000000400e0a in Outer::~Outer (this=0x7ffeae1f033f, __in_chrg=<optimized out>) at main.cpp:19
+
+#7 0x0000000000400cf4 in main () at main.cpp:25
+--
+
+No try/catch here means immediate `terminate()` no matter if exception was thrown before or during `a` 's destruction. Since we're not catching anything it means we don't bother to recover and so `inner` 's cleanup makes little sense anyway.
+
+Obviously, all this doesn't mean you should throw from destructors but sometimes you don't control it. In these cases, knowing the difference between plain `terminate()`, `_Unwind_RaiseException` and `_Unwind_Resume` might help to more quickly find the bad code when process dumps the core.
+
+Detailed description of stack unwinding can be found link:http://www.ucw.cz/~hubicka/papers/abi/node25.html[here].
