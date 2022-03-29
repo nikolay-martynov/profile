@@ -1,5 +1,7 @@
 = Bedtime Stories for Managers
 
+_2019-03-20_
+
 image::../images/Bedtime Stories for Managers.jpg[http://www.mintzberg.org/books/bedtime-stories-for-managers]
 
 Previously I had a wish that everyone in the industry reads link:https://www.amazon.com/Mythical-Man-Month-Software-Engineering-Anniversary/dp/0201835959[The Mythical Man-Month: Essays on Software Engineering] by link:http://www.cs.unc.edu/~brooks/[Frederick P. Brooks]. That still holds but now I also wish that everyone then reads link:https://www.bkconnection.com/books/title/Bedtime-Stories-for-Managers[Bedtime Stories for Managers] by link:http://www.mintzberg.org/[Henry Mintzberg].
