@@ -1,0 +1,227 @@
+= What is difference between synchronized method and synchronized block?
+
+_2010-08-25_
+
+This is a synchronized method:
+
+[source,java]
+----
+public synchronized void meth() {
+}
+----
+
+And this is a synchronized block:
+
+[source,java]
+----
+public void block() {
+    synchronized (this) {
+    }
+}
+----
+
+Is there any difference between these?
+
+If you link:http://www.google.com/search?q=What+is+difference+between+synchronized+method+and+synchronized+block[google it] you'll find a lot of answers like "these are fully equivalent" or "synchronized block is better because allows more flexibility". Is there any other difference despite flexibility?
+
+Let's look at bytecode:
+
+[source,bash]
+----
+sh-3.2$ cat B.java
+
+public class B {
+
+    public synchronized void meth() {
+    }
+
+    public void block() {
+        synchronized (this) {
+        }
+    }
+
+}
+
+sh-3.2$ javac B.java
+
+sh-3.2$ javap -c -s B
+
+Compiled from "B.java"
+public class B extends java.lang.Object{
+public B();
+Signature: ()V
+Code:
+0:   aload_0
+1:   invokespecial   #1; //Method java/lang/Object."<init>":()V
+4:   return
+
+public synchronized void meth();
+Signature: ()V
+Code:
+0:   return
+
+public void block();
+Signature: ()V
+Code:
+0:   aload_0
+1:   dup
+2:   astore_1
+3:   monitorenter
+4:   aload_1
+5:   monitorexit
+6:   goto    14
+9:   astore_2
+10:  aload_1
+11:  monitorexit
+12:  aload_2
+13:  athrow
+14:  return
+Exception table:
+from   to  target type
+4     6     9   any
+9    12     9   any
+
+}
+----
+
+As you can see, there is a difference in the bytecode representation of synchronized method and method with synchronized block. Method with synchronized block explicitly performs synchronization and handles exceptions. Section link:http://java.sun.com/docs/books/jvms/second_edition/html/Compiling.doc.html#6530[7.14 Synchronization] of Java Virtual Machine Specification explains what happens with synchronized method. In short, synchronization and exceptions are handled implicitly by Java Virtual Machine.
+
+To check if there is any difference between synchronized method and synchronized block I've used a short benchmark program:
+
+[source,java]
+----
+public class A {
+
+    private int foo(boolean doThrow, int p) {
+        if (doThrow) {
+            throw new RuntimeException();
+        }
+        return p;
+    }
+
+    public synchronized int meth(boolean doThrow, int p) {
+        return foo(doThrow, p);
+    }
+
+    public int block(boolean doThrow, int p) {
+        synchronized (this) {
+            return foo(doThrow, p);
+        }
+    }
+
+    public static void main(String[] args) {
+        int count = Integer.parseInt(args[0]);
+        A a = new A();
+
+        System.out.println("Warming up");
+        int sum = 0;
+        for (int i = 0; i < count; i++) {
+            sum += a.meth(false, i);
+        }
+        for (int i = 0; i < count; i++) {
+            sum += a.block(false, i);
+        }
+        for (int i = 0; i < count; i++) {
+            try {
+                sum += a.meth(true, i);
+            } catch (RuntimeException e) {
+            }
+        }
+        for (int i = 0; i < count; i++) {
+            try {
+                sum += a.block(true, i);
+            } catch (RuntimeException e) {
+            }
+        }
+
+        long start;
+        long finish;
+
+        System.out.println("Measure method");
+        start = System.currentTimeMillis();
+        for (int i = 0; i < count; i++) {
+            sum += a.meth(false, i);
+        }
+        finish = System.currentTimeMillis();
+        System.out.println(finish - start);
+
+        System.out.println("Measure block");
+        start = System.currentTimeMillis();
+        for (int i = 0; i < count; i++) {
+            sum += a.block(false, i);
+        }
+        finish = System.currentTimeMillis();
+        System.out.println(finish - start);
+
+        System.out.println("Measure method with exceptions");
+        start = System.currentTimeMillis();
+        for (int i = 0; i < count; i++) {
+            try {
+                sum += a.meth(true, i);
+            } catch (RuntimeException e) {
+            }
+        }
+        finish = System.currentTimeMillis();
+        System.out.println(finish - start);
+
+        System.out.println("Measure block with exceptions");
+        start = System.currentTimeMillis();
+        for (int i = 0; i < count; i++) {
+            try {
+                sum += a.block(true, i);
+            } catch (RuntimeException e) {
+            }
+        }
+        finish = System.currentTimeMillis();
+        System.out.println(finish - start);
+        a.meth(false, sum);
+    }
+
+}
+----
+
+This program first performs warm up and then runs synchronized method and synchronized block many times with and without exceptions being raised. Reason for testing it with exceptions is that there might be some difference how synchronized block explicitly deals with exceptions and way JVM implicitly does it for synchronized method.
+
+The following are results of running this benchmark on Windows Vista SP2 / Intel Core 2 Duo T9400 2.53GHz / 3GB / Sun Java(TM) SE Runtime Environment (build 1.6.0_18-b07):
+
+[source,bash]
+----
+$ java A 10000000
+Warming up
+Measure method
+340
+Measure block
+415
+Measure method with exceptions
+14306
+Measure block with exceptions
+15121
+
+$ java A 10000000
+Warming up
+Measure method
+484
+Measure block
+338
+Measure method with exceptions
+14209
+Measure block with exceptions
+12792
+
+$ java A 10000000
+Warming up
+Measure method
+426
+Measure block
+338
+Measure method with exceptions
+13355
+Measure block with exceptions
+13342
+----
+
+There is no evidence that synchronized method is faster.
+
+Question: What is difference between synchronized method and synchronized block?
+
+Answer: Bytecode is different. A synchronized block provides greater flexibility. Synchronized method is shorter both in terms of source code lines and JVM instructions. Functionality is same. Performance seems to be same.
