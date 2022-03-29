@@ -9,6 +9,7 @@ toc::[]
 == Articles, posts and events
 
 * link:blog/2017-10-15-Fall-through-a-function.adoc[Fall through a function]
+* link:blog/2016-08-27-How-does-dollar-do-it.adoc[How does dollar do it?]
 * link:blog/2016-01-20-Digital-Entrepreneurship-Project.adoc[Digital Entrepreneurship Project]
 * link:blog/2010-08-25-What-is-difference-between-synchronized-method-and-synchronized-block.adoc[What is difference between synchronized method and synchronized block?]
 * link:blog/2009-10-20-Agile-Patterns-The-Technical-Cluster.adoc[Agile Patterns: The Technical Cluster]

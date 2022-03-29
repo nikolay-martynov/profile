@@ -1,0 +1,60 @@
+= How does dollar do it?
+
+_2016-08-27_
+
+Working with Java for a long time I was quite surprised in syntax used in link:http://www.gebish.org/[Geb]'s "hello world":
+
+[source,groovy]
+--
+import geb.Browser
+
+Browser.drive {
+    go "http://myapp.com/login"
+
+    assert $("h1").text() == "Please Login"
+
+    $("form.login").with {
+        username = "admin"
+        password = "password"
+        login().click()
+    }
+
+    assert $("h1").text() == "Admin Section"
+}
+--
+
+The strange part for me was this link:https://jquery.com/[JQuery]'s syntax: `$("h1")`. For a Java coder used to normal coding conventions it might be not immediately obvious but `$` is a perfectly valid identifier:
+
+[source,java]
+--
+public class Foo {
+        public static void $() {
+                System.out.println("$");
+        }
+        public static void main(String[] args) {
+                $();
+        }
+}
+--
+
+The same trick is used by Geb to make it look JQuery. However, Groovy is dynamic enough to make it even prettier: `${h1}`. All you need is just a bit of link:http://groovy-lang.org/metaprogramming.html[MOP].
+
+The more interesting exercise is to support deeper paths like `${h1/h2/h3}`. This can be done by wrapping each object returned by link:http://groovy-lang.org/metaprogramming.html#_propertymissing[propertyMissing] with an overloaded / operator:
+
+[source,groovy]
+--
+def addDiv(foo){
+    foo.metaClass.div<<{addDiv("$foo/$it")}
+    foo
+}
+def $(moo){
+    moo.delegate=new Object()
+    moo.delegate.metaClass.propertyMissing<<{addDiv("$it")}
+    moo()
+}
+assert ${h1/h2/h3/h4}=="h1/h2/h3/h4"
+--
+
+Here we intercept each undefined property access (`h1`, `h2`, `h3`, `h4`), replace it with the string whose value is phantom property name and augment this string with an overloaded `/` operator that also returns an augmented string. Of course, in real world one would return an instance of a recorder rather than an augmented string.
+
+The part I don't like is that `addDiv` pollutes name space. Ideally, I would like to see it just as another closure defined inside `$` so there is just `$` and nothing else.
