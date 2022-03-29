@@ -1,5 +1,7 @@
 = Fall through a function
 
+_2017-10-15_
+
 Did you know you can omit return statement in C++ code? At least, when using g++. Obviously, Java will not allow the following code to compile:
 
 [source,c++]
