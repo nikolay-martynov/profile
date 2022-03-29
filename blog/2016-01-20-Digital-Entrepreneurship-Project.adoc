@@ -1,0 +1,9 @@
+= Digital Entrepreneurship Project
+
+_2016-01-20_
+
+image::http://digital.jastudycenter.ru/images/news/digital-16.jpg[Me talking to students]
+
+Helping young entrepreneurs to understand how software development happens from ideation to demo. Thanks to agile this topic isn't a rocket science even for 4-students teams.
+
+Press release is link:http://digital.jastudycenter.ru/news-media/77-hpe-e-mentors-will-support-us-russia-teams-work-while-they-develop-innovative-digital-entrepreneurship-concepts[here].
