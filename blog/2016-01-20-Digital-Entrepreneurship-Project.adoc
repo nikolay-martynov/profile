@@ -2,7 +2,7 @@
 
 _2016-01-20_
 
-image::http://digital.jastudycenter.ru/images/news/digital-16.jpg[Me talking to students]
+image::../images/Digital-Entrepreneurship-Project.jpg[,600]
 
 Helping young entrepreneurs to understand how software development happens from ideation to demo. Thanks to agile this topic isn't a rocket science even for 4-students teams.
 
