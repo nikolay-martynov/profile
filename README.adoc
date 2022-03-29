@@ -8,6 +8,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2019-03-20-Bedtime-Stories-for-Managers.adoc[Bedtime Stories for Managers]
 * link:blog/2019-02-28-Architecture.adoc[Architecture?]
 * link:blog/2019-02-12-5G-NR-The-Next-Generation-Wireless-Access-Technology.adoc[5G NR: The Next Generation Wireless Access Technology]
 * link:blog/2017-10-15-Fall-through-a-function.adoc[Fall through a function]
