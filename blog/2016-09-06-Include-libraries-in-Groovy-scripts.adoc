@@ -1,0 +1,284 @@
+= Include libraries in Groovy scripts
+
+_2016-09-06_
+
+It's very easy to define some re-usable functions (yes, DSL!) in one UNIX shell script and then use them in multiple others. That's just the standard `source` or `.`. Unfortunately, there is no such a standard thing for Groovy because of its Java origins that is object oriented. There are two popular recipes on StackOverflow but they aren't working really well beyond the trivial case.
+
+Imagine that we want to write lots of scripts that look like the following:
+
+[source,groovy]
+----
+foo {
+    assert someStuff() == 'foo'
+    moo {
+        assert someStuff() == 'moo'
+    }
+    assert someStuff() == 'foo'
+}
+----
+
+The first thing to do could be to add library class with those functions:
+
+[source,groovy]
+----
+class Tool {
+
+    def data
+
+    def foo(Closure foo) {
+        def oldData = data
+        data = "foo"
+        foo()
+        data = oldData
+    }
+
+    def moo(Closure foo) {
+        def oldData = data
+        data = "moo"
+        foo()
+        data = oldData
+    }
+
+    def someStuff() {
+        data
+    }
+}
+----
+
+We might also have some advanced stuff we would like to put in a separate file for maintainability purposes:
+
+[source,groovy]
+----
+class AdvancedTool {
+
+    def advancedStuff() {
+        someStuff()
+    }
+
+}
+----
+
+Of course, we would like to use both regular and advanced tools at the same time:
+
+[source,groovy]
+----
+foo {
+    assert someStuff() == 'foo'
+    assert advancedStuff() == 'foo'
+    moo {
+        assert someStuff() == 'moo'
+        assert advancedStuff() == 'moo'
+    }
+    assert someStuff() == 'foo'
+    assert advancedStuff() == 'foo'
+}
+----
+
+We might also have some DSL using command chains:
+
+[source,groovy]
+----
+add red apple once
+add green mango twice
+assert moreStuff() == ['red apple', 'green mango', 'green mango']
+----
+
+Implementing such a DSL is not a big deal:
+
+[source,groovy]
+----
+class AnotherUsefulUtility {
+
+    def stuff = []
+    def once = 1
+    def twice = 2
+    def green = 'green'
+    def red = 'red'
+
+    def add(def color) {
+        ['apple', 'mango'].collectEntries { fruit ->
+            [(fruit): { howMany ->
+                stuff += ["$color $fruit"] * howMany
+            }]
+        }
+    }
+
+    def moreStuff() {
+        stuff
+    }
+
+}
+----
+
+And now comes the main question: *how can I include those utility methods into my script*?
+
+The first StackOverflow proposed option is to use `with()`:
+
+[source,groovy]
+----
+new Tool().with {
+    assert someStuff() == null
+    foo {
+        assert someStuff() == 'foo'
+        moo {
+            assert someStuff() == 'moo'
+        }
+        assert someStuff() == 'foo'
+    }
+    assert someStuff() == null
+}
+
+new AnotherUsefulUtility().with {
+    add red apple once
+    add green mango twice
+    assert moreStuff() == ['red apple', 'green mango', 'green mango']
+}
+----
+
+That's not really a clean script but the bigger issue is that it becomes problematic to reference functions from different utility classes at the same time. For example, the following doesn't work:
+
+[source,groovy]
+----
+new AdvancedTool().with {
+    new Tool().with {
+        assert someStuff() == null
+        assert advancedStuff() == null
+        foo {
+            assert someStuff() == 'foo'
+            assert advancedStuff() == 'foo'
+            moo {
+                assert someStuff() == 'moo'
+                assert advancedStuff() == 'moo'
+            }
+            assert someStuff() == 'foo'
+            assert advancedStuff() == 'foo'
+        }
+        assert someStuff() == null
+        assert advancedStuff() == null
+    }
+}
+----
+
+The second StackOverflow proposed option is to use mixins:
+
+[source,groovy]
+----
+this.metaClass.mixin new File('.').list().grep { it ==~ /[A-Z].*\.groovy/ }.collect {
+    new GroovyScriptEngine('.').loadScriptByName(it)
+}
+
+assert someStuff() == null
+assert advancedStuff() == null
+foo {
+    assert someStuff() == 'foo'
+    assert advancedStuff() == 'foo'
+    moo {
+        assert someStuff() == 'moo'
+        assert advancedStuff() == 'moo'
+    }
+    assert someStuff() == 'foo'
+    assert advancedStuff() == 'foo'
+}
+assert someStuff() == null
+assert advancedStuff() == null
+
+add red apple once
+add green mango twice
+println "this script is $this"
+assert moreStuff() == ['red apple', 'green mango', 'green mango']
+----
+
+Closures part works well but not the command chains DSL. It fails to properly accumulate result.
+
+Fortunately, there is another approach that is classic to Java. That is static methods and *static imports*. I find it to work quite well. The only thing is that it requires utility classes to store state in singleton. This is quite easy in Groovy, however:
+
+[source,groovy]
+----
+@Singleton
+class Tool {
+
+    def data
+
+    static def foo(Closure foo) {
+        def oldData = getInstance().data
+        getInstance().data = "foo"
+        foo()
+        getInstance().data = oldData
+    }
+
+    static def moo(Closure foo) {
+        def oldData = getInstance().data
+        getInstance().data = "moo"
+        foo()
+        getInstance().data = oldData
+    }
+
+    static def someStuff() {
+        getInstance().data
+    }
+}
+
+import static Tool.*
+
+@Singleton
+class AdvancedTool {
+
+    static def advancedStuff() {
+        someStuff()
+    }
+
+}
+
+@Singleton
+class AnotherUsefulUtility {
+
+    def stuff = []
+    static def once = 1
+    static def twice = 2
+    static def green = 'green'
+    static def red = 'red'
+
+    static def add(def color) {
+        ['apple', 'mango'].collectEntries { fruit ->
+            [(fruit): { howMany ->
+                getInstance().stuff += ["$color $fruit"] * howMany
+            }]
+        }
+    }
+
+    static def moreStuff() {
+        getInstance().stuff
+    }
+
+}
+----
+
+With those modifications, writing scripts is just a relief:
+
+[source,groovy]
+----
+import static AdvancedTool.*
+import static AnotherUsefulUtility.*
+import static Tool.*
+
+assert someStuff() == null
+assert advancedStuff() == null
+foo {
+    assert someStuff() == 'foo'
+    assert advancedStuff() == 'foo'
+    moo {
+        assert someStuff() == 'moo'
+        assert advancedStuff() == 'moo'
+    }
+    assert someStuff() == 'foo'
+    assert advancedStuff() == 'foo'
+}
+assert someStuff() == null
+assert advancedStuff() == null
+
+add red apple once
+add green mango twice
+assert moreStuff() == ['red apple', 'green mango', 'green mango']
+----
+
+A very important bonus is that an IDE can now easily provide all kinds of support including *auto-completion and context help (Groovy-doc)* for functions. This could really be a life saver if libraries contain hundreds of functions written by multiple people. Moreover, one can now easily apply *refactorings* like functions renaming. It's problematic for IDEs to provide this aid when classes are assembled in runtime but any decent IDE should be able to handle static imports.
