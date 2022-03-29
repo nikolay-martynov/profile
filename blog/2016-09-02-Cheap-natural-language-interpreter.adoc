@@ -1,0 +1,122 @@
+= Cheap natural language interpreter
+
+_2016-09-02_
+
+Metaprogramming allows you to do really strange things like sort of mimicking natural language. link:http://groovy-lang.org/metaprogramming.html#_propertymissing[propertyMissing] and link:http://groovy-lang.org/metaprogramming.html#_methodmissing[methodMissing] coupled with link:http://groovy-lang.org/dsls.html#_command_chains[command chains] allow translation of a sentence into a sequence of strings:
+
+[source,groovy]
+--
+class Collector {
+
+    List<String> arguments = []
+    List<String> sentence = []
+
+    def propertyMissing(String name) {
+        arguments << name
+        this
+    }
+
+    def methodMissing(String name, def args) {
+        sentence << name << arguments
+        arguments = []
+        this
+    }
+
+}
+
+List<String> collect(Closure code) {
+    Collector collector = new Collector()
+    Closure newCode = code.rehydrate(collector, code.owner, code.thisObject)
+    newCode.resolveStrategy = Closure.DELEGATE_ONLY
+    newCode()
+    collector.sentence << collector.arguments
+    collector.sentence.flatten()
+}
+
+assert collect {
+    I can have very very weird syntax
+} == ['I', 'can', 'have', 'very', 'very', 'weird', 'syntax']
+--
+
+The interesting thing here is that this sentence inside `collect{...}` is a perfectly valid Groovy code even without any quotes. The only limitation is that we can't have Groovy keywords inside (at least, not without AST customizer).
+
+Of course, this example doesn't do much but the same approach can be combined with classic command chains. We can define several action verbs for first word of sentences and then just capture the rest. This allows very cheap implementation of a simple interpreter:
+
+[source,groovy]
+--
+class Collector {
+
+    List<String> arguments = []
+    List<String> sentence = []
+
+    def propertyMissing(String name) {
+        arguments << name
+        this
+    }
+
+    def methodMissing(String name, def args) {
+        sentence << name << arguments
+        arguments = []
+        this
+    }
+
+}
+
+class Interpreter extends Collector {
+def variables = [:]
+def results = []
+def shouldPushResult = false
+
+    def set(def unused) {
+        def variableToSet = arguments.removeAt(0)
+        [to: { explicitValueOfTo ->
+            if (explicitValueOfTo instanceof Interpreter) {
+                def variableToRead = arguments.removeAt(0)
+                variables[variableToSet] = variables[variableToRead] ?: variableToRead
+            } else {
+                variables[variableToSet] = explicitValueOfTo
+            }
+        }]
+    }
+
+    def what(def param) {
+        shouldPushResult = true
+        this
+    }
+
+    def propertyMissing(String name) {
+        if (shouldPushResult) {
+            shouldPushResult = false
+            results << variables[name]
+        } else {
+            arguments << name
+        }
+        this
+    }
+
+    def call() {
+        results
+    }
+}
+
+def interpret(Closure code) {
+    Interpreter interpreter = new Interpreter()
+    Closure newCode = code.rehydrate(interpreter, code.owner, code.thisObject)
+    newCode.resolveStrategy = Closure.DELEGATE_ONLY
+    newCode()
+    interpreter()
+}
+
+assert interpret {
+    set a to 1
+    set b to foo
+    set c to a
+    set d to b
+    what is c
+    what is d
+} == [1, 'foo']
+--
+
+Class `Interpreter` follows classic command chains pattern but uses `Collector` to capture variable names and values. Since odd number of words in command chains results in a property access and `what is X` is 3 words, we have to override `propertyMissing` in `Interpreter` to capture result of `what is`. We also have to check type of value captured by `set-to` because it can be both explicit value as well as a variable reference. If reference is actually to unknown variable then we consider it as a string value.
+
+The code is quite short but still it can handle interpretation of quite naturally looking sentences.
