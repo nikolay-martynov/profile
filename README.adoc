@@ -9,6 +9,7 @@ toc::[]
 == Articles, posts and events
 
 * link:blog/2017-10-15-Fall-through-a-function.adoc[Fall through a function]
+* link:blog/2017-04-06-Making-Java-Groovy.adoc[Making Java Groovy]
 * link:blog/2016-11-03-How-to-resume-unwinding.adoc[How to resume unwinding]
 * link:blog/2016-09-06-Include-libraries-in-Groovy-scripts.adoc[Include libraries in Groovy scripts]
 * link:blog/2016-09-02-Cheap-natural-language-interpreter.adoc[Cheap natural language interpreter]
