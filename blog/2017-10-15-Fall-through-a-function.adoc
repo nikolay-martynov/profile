@@ -47,7 +47,7 @@ is not an issue for g++:
 0
 ----
 
-Of course, you wouldn't be doing this intentionally and, of course, you have `-Wall -Wfatal-errors -Wpedantic -pedantic-errors``</code>`` but still it's interesting to see what happens here.
+Of course, you wouldn't be doing this intentionally and, of course, you have `-Wall -Wfatal-errors -Wpedantic -pedantic-errors` but still it's interesting to see what happens here.
 
 Let's take a more likely example: you have a class with the method that returns something
 
