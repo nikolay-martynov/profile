@@ -8,7 +8,7 @@ toc::[]
 
 == Articles, posts and events
 
-* link:blog/2010-08-25-What-is-difference-between-synchronized-method-and-synchronized-block.adoc
+* link:blog/2010-08-25-What-is-difference-between-synchronized-method-and-synchronized-block.adoc[What is difference between synchronized method and synchronized block?]
 * link:blog/2009-10-20-Agile-Patterns-The-Technical-Cluster.adoc[Agile Patterns: The Technical Cluster]
 * link:blog/2009-04-08-Scrum-practice-Part-3-Sprint.adoc[Scrum practice. Part 3: Sprint]
 * link:blog/2009-03-27-Scrum-practice-Part-2-Planning.adoc[Scrum practice. Part 2: Planning]
