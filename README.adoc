@@ -8,6 +8,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2021-07-21-Kubernetes-CKS-2021-Complete-Course-Theory-Practice.adoc[Kubernetes CKS 2021 Complete Course - Theory - Practice]
 * link:blog/2020-08-07-Documentation-QA-unbalanced-IFs.adoc[Documentation QA: unbalanced IFs]
 * link:blog/2020-07-31-The-Design-and-Implementation-of-the-FreeBSD-Operating-System.adoc[The Design and Implementation of the FreeBSD Operating System]
 * link:blog/2020-05-26-Get-library-sources-with-Gradle.adoc[Get library sources with Gradle]
@@ -142,6 +143,15 @@ image:images/author-certificate-fips.jpg[Authorship certificate for software for
 * link:https://www.credly.com/badges/5adf08ce-8d39-41ef-832a-c3ad70db04a1[LFC191: Open Source Licensing Basics for Software Developers]
 ** September 2021
 ** Earners of the LFC191: Open Source Licensing Basics for Software Developers badge possess a good working knowledge of open source licensing and compliance. They can distinguish the different types of licenses and permissions, and are able to create file notices with copyrights and licenses.
+
+* link:https://www.udemy.com/certificate/UC-b0b7a9d6-e238-4773-a287-d0b04cab6eb8/[Kubernetes CKS 2021 Complete Course - Theory - Practice]
+** July 2021
+** What you'll learn:
+Complete CKS preparation,
+CKS full Theory and Practice
+Kubernetes Security Concepts
+Think from a hackers perspective
+Deep technical insight into Kubernetes
 
 * link:https://archiveprogram.github.com/[Arctic Code Vault Contributor]
 ** February 2020
