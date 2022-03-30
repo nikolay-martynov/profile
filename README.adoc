@@ -8,6 +8,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2019-07-29-OpenAPI-request-reply-validation-in-Gradle.adoc[OpenAPI request/reply validation in Gradle]
 * link:blog/2019-07-23-Microservice-Architecture.adoc[Microservice Architecture]
 * link:blog/2019-07-19-Adjusting-log-level-for-specific-feature-test.adoc[Adjusting log level for specific feature test]
 * link:blog/2019-07-06-EIP-in-your-documentation.adoc[EIP in your documentation]

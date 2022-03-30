@@ -1,0 +1,51 @@
+= OpenAPI request/reply validation in Gradle
+
+_2019-07-29_
+
+image::../images/openapi-validation.png[https://www.openapis.org/]
+
+Some time ago link:2019-04-02-Schema-for-JSON.adoc[I wrote] about validation of data samples against JSON Schema specification. However, when dealing with link:https://en.wikipedia.org/wiki/Remote_procedure_call[RPC-style] communications, link:https://www.openapis.org/[OpenAPI] is a more popular tool for the API specification. For example, both link:http://www.3gpp.org/ftp//Specs/archive/28_series/28.532/28532-g00.zip[3GPP] and link:https://projects.tmforum.org/wiki/display/API/Open+API+Table[TMForum] use OpenAPI to define fault management API for 5G.
+
+Of course, you can just go ahead and generate client and server stubs or documentation from an OpenAPI specification. However, in some cases that is not enough. For example:
+
+* You're authoring a specification and want to see requests and response bodies or check, that whatever you modify in the schema, does not break the samples.
+* You're working on a client or a server but do not use generator. You probably want a few samples of requests and replies for your (maybe old-style) mocks. And you want to be sure that these samples actually comply with API specification.
+
+Of course, one can use IDE to see if a sample complies with a specification. But this is very fragile and, most importantly, requires a human to act. It's way more efficient when people think and computers act. That's why you usually delegate validation job to a build process.
+
+Unfortunately, I haven't found an easy to use Gradle plugin for OpenAPI 3 data validation. However, it's not that hard to create your own using link:https://bitbucket.org/atlassian/swagger-request-validator/src/master/[swagger-request-validator] library. So link:https://github.com/nikolay-martynov/openapi-validator-gradle-plugin[here it is]. Feel free to use.
+
+It's available right from GutHub via Jitpack:
+
+[source,groovy]
+--
+buildscript {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+    dependencies {
+        classpath 'com.github.nikolay-martynov:openapi-validator-gradle-plugin:1.0'
+    }
+}
+
+apply plugin: com.github.openapivalidatorgradleplugin.OpenapiValidatorGradlePluginPlugin
+--
+
+Then just define a task specifying specification, call details and which sample files to check:
+
+[source,groovy]
+--
+task validate(type: com.github.openapivalidatorgradleplugin.ValidateRequestResponseTask) {
+    specificationFile = file("src/functionalTest/resources/specification.json")
+    responseFiles = fileTree("src/functionalTest/resources/").tap {
+        it.include "alarms-response-valid-*.json"
+    }
+    path = "/alarms"
+    method = "get"
+
+}
+--
+
+If you need to check multiple calls or validate responses for multiple response codes then just define multiple tasks. You can validate request bodies or response bodies or both at the same time.
+
+More examples can be found in link:https://github.com/nikolay-martynov/openapi-validator-gradle-plugin/blob/master/src/functionalTest/groovy/com/github/openapivalidatorgradleplugin/OpenapiValidatorGradlePluginPluginFunctionalTest.groovy[tests]. Feel free to fork.
