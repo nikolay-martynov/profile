@@ -8,6 +8,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2019-04-02-Schema-for-JSON.adoc[Schema for JSON]
 * link:blog/2019-03-27-Overlock.adoc[Overlock]
 * link:blog/2019-03-20-Bedtime-Stories-for-Managers.adoc[Bedtime Stories for Managers]
 * link:blog/2019-02-28-Architecture.adoc[Architecture?]
