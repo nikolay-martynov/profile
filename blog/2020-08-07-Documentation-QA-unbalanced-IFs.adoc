@@ -1,0 +1,78 @@
+= Documentation QA: unbalanced IFs
+
+_2020-08-07_
+
+image::../images/unbalanced-if.jpg[https://en.wikipedia.org/wiki/Gestalt_psychology#Law_of_Symmetry]
+
+Thankfully, no one writes user documentation in MS Word anymore. I hope. If you're using link:https://asciidoctor.org/docs/what-is-asciidoc/#what-is-asciidoc[Asciidoctor] then one of the nice things is the ability to include or omit sections, paragraphs and sentences based on link:https://asciidoctor.org/docs/user-manual/#conditional-preprocessor-directives[conditions]. If you're dealing with a lot of projects that have many commonalities but also many differences then this could be a key to reuse and efficiency for tasks related to documentation.
+
+[source,asciidoc]
+--
+\ifeval::[@{supportsStatistics}==true]
+The application supports collection and reporting of detailed
+statistics related to consumption of system resources
+like amount of RAM used, CPU utilization and disk usage.
+\endif::[]
+\ifeval::[@{supportsStatistics}==false]
+Use standard system commands like `top`, `ps` and `du`
+to see how much resources is being used by the application.
+\endif::[]
+--
+
+`supportsStatistics` could be a property that you set in a property file or a YAML file or even a property that is being calculated based on some complex condition when the build is started. Then you link:https://docs.gradle.org/current/userguide/working_with_files.html#sec:filtering_files[filter] in the value of the property into resource files before they are passed to Asciidoctor tool chain.
+
+The unfortunate part is that many editors, including popular IDE, will not assist you to see if you have a missing `endif`.
+
+[source,asciidoc]
+--
+\ifeval::[@{supportsStatistics}==true]
+The application supports collection and reporting of detailed
+statistics related to consumption of system resources
+like amount of RAM used, CPU utilization and disk usage.
+\endif::[]
+\ifeval::[@{supportsStatistics}==false]
+Use standard system commands like `top`, `ps` and `du`
+to see how much resources is being used by the application.
+
+The application supports health probes the following way:
+
+--
+
+It's easy to miss that there is no matching `endif`. The result will vary based on the value of `supportsStatistics`. You could either never spot the problem or wonder where is the rest of the document.
+
+If you are not stuck with declarative and hard to customize XML-based build system but rather have flexibility with a scripted build system like link:https://gradle.org/[Gradle] then the problem could be easily fixed with a help of a small task:
+
+[source,groovy]
+--
+task checkNoOpenIf {
+    description "Check that there is ifeval without endif"
+    group "verification"
+    def srcDir = sourceSets.docs.resources.srcDirs.first()
+    inputs.files fileTree(srcDir).include("**/*.adoc").files
+    outputs.file("build/reports/${name}.txt")
+    doLast {
+        inputs.files.files.each { file ->
+            List<String> lines = file.readLines()
+            def (ifevalCount, endifCount) = ["ifeval::[", "endif::[]"]
+                    .collect { token ->
+                        lines.count { line -> line.startsWith(token) }
+                    }
+            if (ifevalCount != endifCount) {
+                throw new GradleException(
+                        "Unbalanced number of ifeval($ifevalCount) " +
+                                "and endif($endifCount) in $file")
+            }
+        }
+    }
+}
+
+check.dependsOn checkNoOpenIf
+--
+
+Here we just take all `.adoc` files and count a number of `ifeval` and `endif` in each of them. If numbers do not much for any of the files then we have a problem. If you have many small include files rather than single huge monster then it becomes very easy to see where exactly the problem is.
+
+We also set `inputs` and `outputs` to improve performance by supporting incremental builds. This seems negligible here. However, it's just two simple lines so there are no reasons not to add them. Moreover, if you have dozens of such checks then it could be a difference between developer performing a full build or blindly pushing code changes to CI because it is too bothersome to wait.
+
+The last line makes sure that robots will be on guard while humans could focus on more important things like explaining other humans how to use the system (if it is not obvious enough).
+
+Simple as that.
