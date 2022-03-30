@@ -1,0 +1,183 @@
+= Retro style open source dependencies
+
+_2019-06-26_
+
+image::../images/retro.jpg[https://www.publicdomainpictures.net/ru/view-image.php?image=256158&picture=-vintage-old-rusty]
+
+It is quite sad when new product or new version of an old product has all open source components outdated by a year on the first day of release. There are valid reasons when you do not want or cannot use the latest version of some dependency. However, having everything outdated just because you updated your dependencies only once a year ago when started the project is hardly a forgiving reason. Be lazy and automate everything. Don't be reckless doing manually, once and at improper time what should be done continuously. It is 21^st^ century and industry has recipes for good productivity as well as for good reliability.
+
+It is no secret and no innovation how to properly manage versions of your dependencies with Gradle. Answer is simple: link:https://github.com/ben-manes/gradle-versions-plugin[gradle-versions-plugin]. If you're using Maven then there is also a plugin for it. However, personally, I consider Maven itself to be outdated and recommend moving on.
+
+Still, there are sad examples out there. So here's yet another recipe:
+
+== Dependency updates checking example
+
+=== Introduction
+
+This project is an example how one can ensure that whatever dependencies project uses are up-to-date.
+
+It illustrates:
+
+* How to fail build if there are outdated dependencies
+* How to perform check only if building development version and don’t run the check when building release version (for example, when building old tag)
+* How to ignore release candidates and betas when checking for updates
+* How to ignore updates for certain selected dependencies (for example, for compatibility reasons)
+
+=== Explanation
+
+The example uses link:https://github.com/ben-manes/gradle-versions-plugin[gradle-versions-plugin] to perform dependency analysis. So first thing to do is to add plugin to the project:
+
+[source,groovy]
+--
+plugins {
+    // Apply the groovy plugin to add support for Groovy
+    id 'groovy'
+    id "com.github.ben-manes.versions" version "0.21.0" // (1)
+}
+--
+
+(1) Adds plugin to the project.
+
+This will add dependencyUpdates task that you can run to get information about up-to-date and outdated dependencies.
+
+However, this will not:
+
+* fail build if something is outdated
+
+* suggest updating to release candidates
+
+* perform analysis automatically during build
+
+In real world projects you often:
+
+* Want to spend zero effort meaning that everything except thinking on the code should be automated. This means we should make it so analysis is automatic.
+* Want to fail build if there is anything to be done. This is following link:https://en.wikipedia.org/w/index.php?title=Jidoka[Jidoka] principle of link:https://en.wikipedia.org/wiki/Toyota_Production_System[Toyota Production System]. Otherwise, if there is merely a report somewhere then it will be just ignored and will just add another link:https://en.wikipedia.org/wiki/Broken_windows_theory[broken window].
+* Do not want to run such checks when your CI is building a tag. Often trunk/master contains current development version with -SNAPSHOT suffix while tags contain release version without the suffix. While working on this snapshot version you want to be sure that dependencies are upt-to-date. However, during release you most probably do not want build to be failed because some update was released a minute ago.
+* Do not want to update certain dependencies. Perhaps there is compatibility issue with the code or between two dependencies. Or perhaps latest version of some dependency is known to have an issue. Anyway, you might want to have a way to go with older version of particular dependency.
+* Do not care about beta, release candidate, nightly and all kinds of other intermediate non-release versions of dependencies. Most often, you want to completely ignore them.
+
+The following excerpt configures `gradle-versions-plugin` to fulfill these desires:
+
+[source,groovy]
+--
+dependencyUpdates {
+    boolean failOnUpdate = true // (1)
+    List<String> ignoredUpdates = [ // (2)
+            /org.codehaus.groovy:groovy.*/, // (3)
+            /org.gradle:gradle/ // (4)
+    ]
+    onlyIf {
+        project.version && (project.version as String).endsWith('-SNAPSHOT') // (5)
+    }
+    outputFormatter = { com.github.benmanes.gradle.versions.reporter.result.Result result -> // (6)
+        Closure<Boolean> shouldIgnore = { String groupAndArtifact ->
+            ignoredUpdates.any { groupAndArtifact ==~ it }
+        }
+        boolean hasUpdates = false
+        result.outdated.dependencies.each { com.github.benmanes.gradle.versions.reporter.result.DependencyOutdated outdated -> // (7)
+            if (!shouldIgnore("${outdated.group}:${outdated.name}")) {
+                project.logger.warn(
+                        "There is outdated dependency:" +
+                                " ${outdated.group}:${outdated.name}:${outdated.version}" +
+                                " -> ${outdated.available.release ?: outdated.available.milestone}")
+                hasUpdates = true
+            }
+        }
+        if (result.gradle.current.isUpdateAvailable && result.gradle.current > result.gradle.running) { // (8)
+            if (!shouldIgnore("org.gradle:gradle")) {
+                project.logger.warn(
+                        "Gradle is outdated:" +
+                                " ${result.gradle.running.version}" +
+                                " -> ${result.gradle.current.version}")
+                hasUpdates = true
+            }
+        }
+        result.unresolved.dependencies.each { com.github.benmanes.gradle.versions.reporter.result.DependencyUnresolved unresolved -> // (9)
+            project.logger.warn(
+                    "Could not determine latest version for" +
+                            " ${unresolved.group}:${unresolved.name}:${unresolved.version}" +
+                            " because ${unresolved.reason}")
+        }
+        if (hasUpdates && failOnUpdate) { // (10)
+            throw new GradleException("Dependencies have to be updated!")
+        }
+    }
+    resolutionStrategy = { ResolutionStrategy strategy -> // (11)
+        strategy.componentSelection { rules ->
+            rules.all { ComponentSelection selection ->
+                if (selection.candidate.version =~ /redhat/ || ['alpha', 'beta', 'rc', 'cr', 'm', 'preview'].
+                        any { qualifier -> selection.candidate.version =~ /(?i)\b${qualifier}\d*\b/ }) {
+                    selection.reject('Release candidate')
+                }
+            }
+        }
+    }
+}
+check.dependsOn dependencyUpdates // (12)
+--
+
+* (1) Allows to quickly specify that you want to fail the build if anything to be updated.
+* (2) Contains list of patterns for the dependencies to be ignored, even if updated versions are available.
+* (3) Is an example to ignore updates to groovy.
+* (4) Is an example to ignore updates to gradle.
+* (5) Makes sure we run the check only if we’re building development version of the project. For the release version of the project, the task will be skipped.
+* (6) This custom report formatter will receive results of versions checking. This is the way we act upon these results.
+* (7) This is how we get notified that there are outdated dependencies.
+* (8) This is how we get notified that gradle itself is outdated.
+* (9) Sometimes plugin fails to determine latest version of some dependency. This will help us to resolve the issue.
+* (10) We fail the build if there are updates to be made.
+* (11) This is a modified example from the plugin site to make sure that plugin does not suggest upgrade to intermediate non-release versions of dependencies. Modification handles wider range of artifacts. For example, it handles link:http://spockframework.org/[spock].
+* (12) Finally, we let gradle know we don’t want to remember to run task manually and that gradle should manage it automatically for us.
+
+=== Example
+
+Take the following dependency block as an example:
+
+[source,groovy]
+--
+dependencies {
+    // Use the latest Groovy version for building this library
+    implementation 'org.codehaus.groovy:groovy-all:2.5.6' // (1)
+
+    // Use the awesome Spock testing and specification framework
+    testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5' // (2)
+}
+--
+
+Both default dependencies generated by
+
+[source,groovy]
+--
+gradle init
+--
+
+are already outdated. However, let’s imagine that, for whatever reason, we do not want to update groovy but there is no reason to stay with outdated spock. Running the build produces the following result:
+
+[source,console]
+--
+./gradlew build
+
+> Task :dependencyUpdates FAILED
+There is outdated dependency: org.spockframework:spock-core:1.2-groovy-2.5 -> 1.3-groovy-2.5 (1)
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/home/user/Documents/versions-example/build.gradle' line: 77
+
+* What went wrong:
+Execution failed for task ':dependencyUpdates'.
+> Dependencies have to be updated!
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 4s
+3 actionable tasks: 3 executed
+--
+
+(1) It tells us what’s wrong and makes us fix it.
+
+Full source of example can be found on GitHub: link:https://github.com/nikolay-martynov/versions-example[https://github.com/nikolay-martynov/versions-example]
