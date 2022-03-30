@@ -8,6 +8,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2019-07-06-EIP-in-your-documentation.adoc[EIP in your documentation]
 * link:blog/2019-06-26-Retro-style-open-source-dependencies.adoc[Retro style open source dependencies]
 * link:blog/2019-06-20-Software-Architecture-Patterns.adoc[Software Architecture Patterns]
 * link:blog/2019-06-12-Asserting-Log4J-2-with-Spock.adoc[Asserting Log4J 2 with Spock]
