@@ -8,6 +8,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2021-09-08-Open-Source-Licensing-Basics-for-Software-Developers-LFC191.adoc[Open Source Licensing Basics for Software Developers (LFC191)]
 * link:blog/2021-07-21-Kubernetes-CKS-2021-Complete-Course-Theory-Practice.adoc[Kubernetes CKS 2021 Complete Course - Theory - Practice]
 * link:blog/2020-08-07-Documentation-QA-unbalanced-IFs.adoc[Documentation QA: unbalanced IFs]
 * link:blog/2020-07-31-The-Design-and-Implementation-of-the-FreeBSD-Operating-System.adoc[The Design and Implementation of the FreeBSD Operating System]
