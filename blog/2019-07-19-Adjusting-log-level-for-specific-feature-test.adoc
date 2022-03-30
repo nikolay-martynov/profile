@@ -169,7 +169,7 @@ Now, neither Gradle, nor IDE have any issues with the test:
 BUILD SUCCESSFUL in 2s
 --
 
-At the same time, we still get logging from the other feature test:<
+At the same time, we still get logging from the other feature test:
 
 image::../images/logger-reconfig-2.jpg[]
 
