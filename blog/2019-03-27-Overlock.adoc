@@ -1,0 +1,146 @@
+= Overlock
+
+_2019-03-27_
+
+image::../images/overlock.jpg[https://pxhere.com/en/photo/731439]
+
+Please be kind to those less fortunate who are responsible for fixing system hangs in production. Please never do any of the following.
+
+. Use many locks at once (implicitly or explicitly)
++
+[source,groovy]
+--
+ReadWriteLock lock1 = new ReentrantReadWriteLock()
+ReadWriteLock lock2 = new ReentrantReadWriteLock()
+List<Object> containerOfImportantThings = new ArrayList<>()
+
+lock1.readLock().lock()
+...
+lock2.writeLock().lock()
+...
+synchronized (containerOfImportantThings){
+    containerOfImportantThings.add(new Object())
+}
+--
++
+A failure to properly sequence `lock()` in one thread with `unlock()` in another while holding a second lock is a recipe for disaster. It's kind of hard to properly reason of all possible sequences for two locks and it is plainly impossible for three and more.
++
+Yes, it could work in sunny sky scenario with laughable load. But there will be people who'll have to deal with hangs in production.
+
+. Call blocking operations while holding a lock especially network, inter and intra process communication
++
+[source,groovy]
+--
+interface Communication {
+    Future<Object> send(Object msg)
+}
+
+Communication communication = ...
+ReadWriteLock lock = new ReentrantReadWriteLock()
+...
+lock.writeLock().lock()
+...
+Future<Object> promise = communication.send(...)
+Object result = promise.get()
+--
++
+There are certain intra process communication primitives that automatically release the lock. If you are not using one of these but blocking the thread in a state that blocks the lock then you are calling for disaster. It could work in unit test. But the other way in production the other side could have problems delivering in a timely manner and interesting things will start to happen on your side.
+
+. Acquire now and use later, release when exiting
++
+[source,groovy]
+--
+ReadWriteLock importantResourceLock = new ReentrantReadWriteLock()
+List<Object> importantResource = new ArrayList<>()
+
+Object veryImportantMethod() {
+    importantResourceLock.writeLock().lock()
+    try {
+        Object result
+        // 200 lines that do not use importantResource
+        ...
+        importantResource.add(new Object())
+        // 200 more lines that do not use importantResource
+        ...
+        return result
+    } finally {
+        importantResourceLock.writeLock().unlock()
+    }
+
+}
+--
++
+Make it harder to reason by doing lots of irrelevant stuff while holding a lock. Perhaps you'll even be able to sneak in some I/O or a second lock while others are trying to understand why the first lock was acquired and what exactly needs to be protected.
+
+. Use complex instruments everywhere, leave simple primitives for simple people
++
+[source,groovy]
+--
+@Field ReadWriteLock goodLock = new ReentrantReadWriteLock()
+@Field boolean good
+
+Thread reader = new Thread({
+    while (true) {
+        goodLock.readLock().lock()
+        try {
+            println "It is ${good ? "good" : "bad"}"
+        } finally {
+            goodLock.readLock().unlock()
+        }
+    }
+})
+
+Thread writer = new Thread({
+    while (true) {
+        goodLock.writeLock().lock()
+        try {
+            good = Math.random() > 0.5
+        } finally {
+            goodLock.writeLock().unlock()
+        }
+    }
+})
+
+writer.start()
+reader.start()
+--
++
+`ReadWriteLock` is for the case of multiple readers that you want to be able to progress in parallel. Yes, it is technically possible to use it as a general purpose lock. But as any complex instrument it requires careful usage as per manual. Otherwise, funny things might start to happen. Especially when you start adding these locks here and there. A simpler volatile is enough in many cases but is less likely to cause a hang. And if you really need conditions and protection then atomics are still simpler and safer while often rich enough.
+
+. Hope someone will release it anyway
++
+[source,groovy]
+--
+@Field Lock lock = new ReentrantLock()
+
+void cleanup() {
+    // 10 lines of cleanup
+}
+
+Object makeSunnyDay() {
+    Object result
+    lock.lock()
+    ...
+    // 100 lines
+    lock.unlock()
+    return result
+}
+
+Object findPinkEyeGlasses() {
+    Object result
+    lock.lock()
+    Reader reader
+    try {
+        ...
+        // 100 lines
+        return result
+    } finally {
+        reader.close()
+        cleanup()
+        lock.unlock()
+    }
+
+}
+--
++
+We live in imperfect Universe where errors do happen: disks become full, connections time out, users specify incorrect configuration and programmers forget to check for nulls. Exceptions will be thrown. This is just inevitable. If you acquire a lock then you have to be sure it is released. Even when exceptions are raised. They will be raised. You might not see them in unit test. But they will happen in production. And don't assume that single finally block will be sufficient to cleanup everything. It will be not. Someone will have a funny time.
