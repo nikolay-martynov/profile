@@ -1,0 +1,84 @@
+= Asserting Log4J 2 with Spock
+
+_2019-06-12_
+
+image::../images/asserting-log4j.jpg[]
+
+It is not your usual job to verify how class logs something. However, if log related behavior is part of class specification and this is something important then you might want to do that. The tree usual approaches are:
+
+. Protected method that does actual logging and you override it in your test to assert behavior.
+. Mock/spy your class under test using some mock framework. Like introduce the method that will do actual logging and spy on this method. Alternatively, you can inject mock logger into logger field.
+. Use Log4J itself to programmatically check what was logged.
+
+First two options require a special design of a class before you can test logging behavior. This is a case when ability to test does not necessarily lead to a better design. Things might get even more complicated with even uglier design when you do an integration test involving multiple classes. Like when doing a test for subsystem.
+
+Third option does not require special class design and might often be preferred.
+
+It is no secret how to capture what was logged with Log4J and then make assertions on it. There are lots of ready to copy/paste examples on Internet. However, most of them are either about old Log4J 1.X or use JUnit link:https://junit.org/junit4/javadoc/4.12/org/junit/Rule.html[Rule]'s. That's probably not what you want with modern Groovy based applications. So here's yet another recipe.
+
+First, we'll need a test jar of Log4J (what but Gradle should be used for Groovy applications?):
+
+[source,groovy]
+--
+dependencies {
+    implementation platform('org.apache.logging.log4j:log4j-bom:2.11.2')
+    implementation 'org.apache.logging.log4j:log4j-core'
+    testImplementation 'org.apache.logging.log4j:log4j-core::tests'
+    // Rest of dependencies
+}
+--
+
+This will get us link:https://github.com/apache/logging-log4j2/blob/log4j-2.11.2/log4j-core/src/test/java/org/apache/logging/log4j/test/appender/ListAppender.java[ListAppender] which we add to our Log4J test configuration (src/test/resources/log4j2-test.properties) to capture whatever gets logged:
+
+[source,properties]
+--
+name=test
+status=info
+dest=err
+appender.console.type = Console
+appender.console.name = STDOUT
+appender.console.layout.type = PatternLayout
+appender.console.layout.pattern = %d %-5p [%t] %c - %m%n
+appender.list.type = List
+appender.list.name = LIST
+rootLogger.level=info
+rootLogger.appenderRef.stdout.ref=STDOUT
+rootLogger.appenderRef.list.ref=LIST
+--
+
+Now we'll need to obtain this appender in our test specification:
+
+[source,groovy]
+--
+import org.apache.logging.log4j.core.LoggerContext
+import org.apache.logging.log4j.test.appender.ListAppender
+import spock.lang.Shared
+import spock.lang.Specification
+
+class MyTest extends Specification {
+
+    @Shared
+    private ListAppender listAppender = LoggerContext.getContext(false).
+            getRootLogger().appenders.get("LIST") as ListAppender
+--
+
+We probably also want each feature method to be isolated and not see what other feature methods captured:
+
+[source,groovy]
+--
+void setup() {
+    listAppender.clear()
+
+}
+--
+
+Finally, we can specify conditions about what was logged:
+
+[source,groovy]
+--
+listAppender.events.any {
+    it.loggerName.startsWith(getClass().package.name) &&
+            it.level == Level.WARN
+
+}
+--
