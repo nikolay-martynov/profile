@@ -8,6 +8,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2020-05-26-Get-library-sources-with-Gradle.adoc[Get library sources with Gradle]
 * link:blog/2019-10-02-Designing-Distributed-Systems.adoc[Designing Distributed Systems]
 * link:blog/2019-10-01-Custom-number-of-threads-in-streams-with-Groovy.adoc[Custom number of threads in streams with Groovy]
 * link:blog/2019-09-06-Information-radiator-for-multi-branch-pipelines-via-JobDSL-in-Jenkins.adoc[Information radiator for multi branch pipelines via JobDSL in Jenkins]

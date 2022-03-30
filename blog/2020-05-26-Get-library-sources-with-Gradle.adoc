@@ -1,0 +1,62 @@
+= Get library sources with Gradle
+
+_2020-05-26_
+
+image::../images/get-sources.jpg[https://www.flickr.com/photos/opensourceway/7496802140]
+
+There are times when you need sources of dependencies you use. When Gradle is involved then the standard google suggestion is to stick with idea or eclipse plugins so they download sources for you. Can't IDE download those sources itself? Of course it can! You don't need IDE to be assisted by build tool for that and you shouldn't rely on such an approach.
+
+The other case is when you need sources of dependencies for the reasons other than looking at them in IDE. For example, you might want to bundle those sources together with your product. Again, it would be quite odd to rely on an IDE specific Gradle plugin for such a job. However, since writing Gradle plugins is fun, why not create one?
+
+The main task is to go through all dependencies and for each of then resolve corresponding source artifact. The first part is quite easy since it's just a configuration exposed from project. The little trick, however, is to resolve it first:
+
+[source,groovy]
+--
+Set<? extends DependencyResult> dependencies = project.configurations.getByName(configurationName)
+        .incoming.resolutionResult.allDependencies.toSet()
+--
+
+Most of those will be `ResolvedDependencyResult` but some could be `UnresolvedDependencyResult` that indicate an issue with dependency resolution. If correctness matters then the latter ones should probably not be ignored.
+
+To get source artifacts for resolved dependencies we can use link:https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.query.ArtifactResolutionQuery.html[ArtifactResolutionQuery]. For this, we'll first need identifiers of the components to query. These can be extracted from resolved dependency results:
+
+[source,groovy]
+--
+Set<ComponentIdentifier> resolvedIdentifiers = resolvedDependencies*.selected*.id.toSet()
+--
+
+Once we have identifiers, we can ask to obtain their sources:
+
+[source,groovy]
+--
+Class<? extends Artifact> artifactType = SourcesArtifact
+
+Set<ComponentResult> sourceResolutionResult = resolvedIdentifiers.collect {
+    project.dependencies.createArtifactResolutionQuery().forComponents(it)
+            .withArtifacts(componentType,
+                    [artifactType]).execute().components
+}.flatten()*.asType(ComponentResult).toSet()
+--
+
+Again, this could result in a success or a failure which is indicated either by `ComponentArtifactsResult` or by `UnresolvedComponentResult`. However, even the `ComponentArtifactsResult` does not guarantee the result. You have to check if it'll return an empty set when asking for artifacts of required type:
+
+[source,groovy]
+--
+Set<ArtifactResult> artifacts = componentArtifactsResult.getArtifacts(artifactType)
+--
+
+If you need correctness then both an empty set and `UnresolvedComponentResult` are something to look for. Especially because `ArtifactResult` could be either `ResolvedArtifactResult` or `UnresolvedArtifactResult`. Yeah, check the result again if correctness matters. However, once you get `ResolvedArtifactResult` you already have a `File` at your hands:
+
+[source,groovy]
+--
+Set<File> resolvedFiles = resolvedArtifacts*.file.toSet()
+--
+
+From here you can simply use regular `CopySpec` to do whatever you want to do with source files for dependencies. Like copy them into target directory or pack into product archive.
+
+Another couple of things to consider:
+
+. For some of the dependencies that could not be resolved, sources could still be downloaded manually from their project sites. Could be good to allow plugin to use those manually downloaded archives for those old libraries that have no `-source.jar` deployed to Central.
+. Maybe you might want to exclude some of the dependencies. For example, when you use some proprietary libraries. Those should be ignored completely.
+
+Both points as well as switchable correctness check were implemented in a plugin you can link:https://github.com/nikolay-martynov/sources-gradle-plugin[fork from Github] if you're in a mood for experiments or just use it link:https://jitpack.io/#nikolay-martynov/sources-gradle-plugin[off Jitpack] if you're in a hurry. Detailed link:https://github.com/nikolay-martynov/sources-gradle-plugin/blob/master/README.adoc[usage instructions] can be found in GitHub. Also, feel free to link:https://github.com/nikolay-martynov/sources-gradle-plugin/blob/master/src/functionalTest/groovy/com/github/sourcesgradleplugin/SourcesGradlePluginTest.groovy[see tests] for usage examples.
