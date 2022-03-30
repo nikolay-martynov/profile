@@ -1,0 +1,47 @@
+= Custom number of threads in streams with Groovy
+
+_2019-10-01_
+
+image::../images/fork.jpg[A very Groovy fork http://www.aidadenmark.com/webshop/details-uk/groovy-fork--4-pcs--mirror]
+
+Since link:https://github.com/GPars/GPars[GPars ]seems to be dead, link:https://docs.oracle.com/javase/tutorial/collections/streams/parallelism.html#executing_streams_in_parallel[parallel streams] of Java 8 are more natural choice to parallelize processing of a list of items. Things are quite easy:
+
+[source,groovy]
+--
+newestDatasets.parallelStream().map {
+    new SizedDataset(id: it.id,
+            caption: it.caption,
+            lastUpdateDate: it.lastUpdateDate,
+            size: mosRuDatasets.getDatasetSize(
+                    settings.apiKey, it.id))
+}.collect(Collectors.toList())
+--
+
+Things gets more interesting when you need to link:https://blog.krecan.net/2014/03/18/how-to-specify-thread-pool-for-java-8-parallel-streams/[control number of threads involved]. The problem is that Groovy (at least 2.X) does not support link:https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html[lambda syntax] because it used the same constructs for link:https://groovy-lang.org/closures.html[closures]. A straightforward  attempt to replace lambda with closure will fail at run-time. It will happily take the closure and happily link:http://docs.groovy-lang.org/latest/html/documentation/core-semantics.html#closure-coercion[coerce ]it. But link:https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html#submit-java.util.concurrent.Callable-[ForkJoinPool.submit()] is overloaded and coercion will not do what you want it to do.
+
+Fortunately, we can make a hint about where we want it to be coerced to. And this solves the problem:
+
+[source,groovy]
+--
+ForkJoinPool pool = new ForkJoinPool(settings.scanParallelism)
+try {
+    List<SizedDataset> sizedDatasets = pool.submit({
+        newestDatasets.parallelStream().map {
+            new SizedDataset(id: it.id,
+                    caption: it.caption,
+                    lastUpdateDate: it.lastUpdateDate,
+                    size: mosRuDatasets.getDatasetSize(
+                            settings.apiKey, it.id))
+        }.collect(Collectors.toList())
+    } as Callable<List>).get().sort { a, b -> b.size <=> a.size }
+    result.datasets = sizedDatasets[0..[settings.maxLargest - 1, sizedDatasets.size()].min()]
+} finally {
+    pool.shutdown()
+}
+--
+
+Notice here that closure gets coerced to `Callable` so proper `submit()` variant gets called. And don't forget that `collect()` is outside of inner closure for `map()` but is inside of outer closure for `submit()`. Kind of the same for Java but sure these brackets are hellish.
+
+No more GPars but it's still cheap to do concurrency using core tools.
+
+You can find full example here: https://github.com/nikolay-martynov/data-mos-ru-explorer 
