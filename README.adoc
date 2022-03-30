@@ -8,6 +8,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2019-06-20-Software-Architecture-Patterns.adoc[Software Architecture Patterns]
 * link:blog/2019-06-12-Asserting-Log4J-2-with-Spock.adoc[Asserting Log4J 2 with Spock]
 * link:blog/2019-04-20-Building-Evolutionary-Architectures.adoc[Building Evolutionary Architectures]
 * link:blog/2019-04-02-Schema-for-JSON.adoc[Schema for JSON]

@@ -1,0 +1,26 @@
+= Software Architecture Patterns
+
+_2019-06-20_
+
+image:../images/arch-patterns.jpg[https://learning.oreilly.com/library/view/software-architecture-patterns/9781491971437/]
+
+I guess everyone has heard about micro services, any seasoned developer can describe 3-tier architecture and any seasoned architect can explain micro kernels. However, link:http://www.wmrichards.com/[Mark Richards] brings an interesting perspective in his link:https://learning.oreilly.com/library/view/software-architecture-patterns/9781491971437/[Software Architecture Patterns]. As link:https://en.wikipedia.org/wiki/Design_Patterns[Gang Of Four] has pointed, it's important not to just understand the recipe but also when to use it, what are the benefits and what are the limitations. In his book, Mark tries to define a common set of characteristics that architects supposedly use when selecting the approach to be used for the particular solution and then assesses several popular architectures using these characteristics. The characteristics are:
+
+* Agility
+* Ease of development
+* Ease of testing
+* Ease of deployment
+* Performance
+* Scalability
+
+I find this quite refreshing since ease of development and testing are often ignored because they seemingly bring no immediate business value. While classic characteristics like agility and scalability have not lost their value, it is all but natural and reflects the reality of the industry to pay attention to needs of development and testing process. You may have great plans but if you're unable to execute them then what's the point?
+
+The patterns that Mark analyzes are:
+
+* link:https://en.wikipedia.org/wiki/Multitier_architecture[Multiple tiers]
+* link:https://en.wikipedia.org/wiki/Event-driven_architecture[Event-driven]
+* link:https://en.wikipedia.org/wiki/Plug-in_(computing)[Microkernel]
+* link:https://en.wikipedia.org/wiki/Microservices[Microservices]
+* link:https://en.wikipedia.org/wiki/Grid_computing[Grids]
+
+I can't say I totally agree with the analysis or with characteristic's values that Mark gave to all the patterns but it's not that important. We read to think rather than believe, right? In this respect, I very much recommend this book. Do not agree with Mark about what's more agile or what's easier to test, bring your own arguments. But the approach and systematization it brings is fully worth the time to read the book.
