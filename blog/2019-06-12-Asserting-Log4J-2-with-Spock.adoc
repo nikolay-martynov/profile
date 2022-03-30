@@ -2,7 +2,7 @@
 
 _2019-06-12_
 
-image::../images/asserting-log4j.jpg[]
+image::../images/asserting-log4j.jpg[https://en.wikipedia.org/wiki/Spock]
 
 It is not your usual job to verify how class logs something. However, if log related behavior is part of class specification and this is something important then you might want to do that. The tree usual approaches are:
 
