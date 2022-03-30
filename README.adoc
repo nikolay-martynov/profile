@@ -8,6 +8,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2020-07-31-The-Design-and-Implementation-of-the-FreeBSD-Operating-System.adoc[The Design and Implementation of the FreeBSD Operating System]
 * link:blog/2020-05-26-Get-library-sources-with-Gradle.adoc[Get library sources with Gradle]
 * link:blog/2019-10-02-Designing-Distributed-Systems.adoc[Designing Distributed Systems]
 * link:blog/2019-10-01-Custom-number-of-threads-in-streams-with-Groovy.adoc[Custom number of threads in streams with Groovy]
