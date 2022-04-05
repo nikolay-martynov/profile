@@ -50,7 +50,46 @@ toc::[]
 == Experience & career events
 
 === Hewlett Packard Enterprise
-Different positions since May 2009 up to present day, more than 12 years
+
+[cols=".^1a,.^1a"]
+|===
+
+|Менеджер по разработке программного обеспечения (разные должности с мая 2009)
+
+Полный цикл разработки и поддержки интеграционных решений в сфере систем эксплуатационной поддержки (Operations Support Systems) для операторов связи по всему миру:
+
+- опрос заказчика, выяснение требований
+- анализ имеющейся документации
+- проработка и написание предложения (включая анализ реализуемости, трудоемкости и целесообразности)
+- разработка технического решения (дизайн, архитектура)
+- разработка плана проекта (разбиение на задачи, нормирование по трудоемкости, учет зависимостей, учет параллелизации на нескольких разработчиков)
+- постановка, детализация и приемка задач
+- написание кода
+- написание модульных тестов
+- написание автоматизированных системных тестов (установочные, функциональные, нагрузочные, регрессионные, на совместимость)
+- написание пользовательской документации
+- обучение персонала заказчиков
+- сопровождение, анализ сложных проблем, исправление дефектов, реализация улучшений, модернизация решения
+
+Поиск, выбор, разработка, установка, настройка и поддержка инфраструктуры, используемой в технологических процессах:
+
+- инструментарий контроля версий, инструментарий сборки, инструментарий тестирования, CI, хранение артефактов
+- технологический стек и набор библиотек
+- внутренние технологические инструкции
+- внутренние обучающие материалы, внешние материалы для внутреннего обучения
+- шаблоны
+- инструментарий управления задачами и учета времени
+- ферма железных и виртуальных машин в различной аппаратно-программной конфигурации
+
+Поиск и реализация технических и организационных решений для выполнения стратегий и политик вышестоящего руководства и корпорации:
+
+- аудит и безопасность внутренней инфраструктуры и продуктов
+- баланс качества продуктов, стоимости их разработки и сопровождения, наличия аппаратных ресурсов, сотрудников, их навыков и знаний
+- создание продуктов по новым направлениям
+- соответствие индустриальным стандартам (3GPP, TMF, ITU-T)
+
+Ключевые технологии и методологии: Groovy, Java, C++, Bash/POSIX shell, Asciidoctor, Gradle, Maven, Autoconf/Automake, JSON, XML, XSLT, XSD, REST, WSDL, JMS, ActiveMQ, Kafka, SNMP, plain TCP, Docker, Spring, Camel, Apache commons, Spock, Boost, Poco, Linux (RHEL), HP-UX, Jenkins, Nexus, GitHub, Subversion, Jira, Wekan, Titra, Scrum, Kanban, Kaizen, WORST, SAFe, TDD
+|Different positions since May 2009 up to present day, more than 12 years
 
 * Technical Lead (August 2015 - Present, more than 6 years)
 +
@@ -78,6 +117,8 @@ Defining and implementing technology strategy in a subdivision working in the fi
 * Gathering and analysis of requirements from customers, development of solution architecture and design, workload estimation and aid in project planning, products update and creation including development of automated testing and documentation, solution delivery and customer consulting.
 * Using broad range of technologies to develop solutions for Communications, Media and Entertainment industry targeting multiple hardware and software platforms.
 --
+
+|===
 
 === Budgeting and Financial Technologies
 * Senior developer (October 2007 - March 2009, 1 year 6 months)
