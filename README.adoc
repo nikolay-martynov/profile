@@ -283,14 +283,20 @@ image:images/author-certificate-fips.jpg[Authorship certificate for software for
 * link:https://www.credly.com/badges/c5d49fdb-6bb7-45cb-96e0-e78bc0290d9a[LFD259: Kubernetes for Developers]
 ** February 2022
 ** Earners of the LFD259: Kubernetes for Developers badge can containerize, host, deploy, and configure an application in a multi-node cluster. They can also define application resources and use core primitives to build, monitor and troubleshoot scalable applications in Kubernetes using a simple Python script. These candidates have experience working with network plugins, security and cloud storage, and understand the many features needed to deploy an application in a production environment.
++
+image::images/lfd259-2022.png[,400]
 
 * link:https://www.credly.com/badges/4a7895c7-c2d3-4a1e-8487-bef0e0b42688[LFD254: Containers for Developers and Quality Assurance]
 ** October 2021
 ** Earners of the LFD254: Containers for Developers and Quality Assurance badge understand the open container ecosystem and know how to run, operate and troubleshoot containers. They build container images and use tools such as Buildah, Podman and Skopeo. They know the basics of container networking and different storage concepts. They also know how to build and deploy a microservices stack with Docker Compose and how to deploy containers in production. They are familiar with Kubernetes and Tekton.
++
+image::images/lfd254-2021.png[,400]
 
 * link:https://www.credly.com/badges/5adf08ce-8d39-41ef-832a-c3ad70db04a1[LFC191: Open Source Licensing Basics for Software Developers]
 ** September 2021
 ** Earners of the LFC191: Open Source Licensing Basics for Software Developers badge possess a good working knowledge of open source licensing and compliance. They can distinguish the different types of licenses and permissions, and are able to create file notices with copyrights and licenses.
++
+image::images/lfc191-2021.png[,400]
 
 * link:https://www.udemy.com/certificate/UC-b0b7a9d6-e238-4773-a287-d0b04cab6eb8/[Kubernetes CKS 2021 Complete Course - Theory - Practice]
 ** July 2021
@@ -300,6 +306,8 @@ CKS full Theory and Practice
 Kubernetes Security Concepts
 Think from a hackers perspective
 Deep technical insight into Kubernetes
++
+image::images/cks-2021.jpg[,400]
 
 * link:https://archiveprogram.github.com/[Arctic Code Vault Contributor]
 ** February 2020
