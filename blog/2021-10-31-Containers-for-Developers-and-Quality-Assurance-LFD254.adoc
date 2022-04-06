@@ -2,7 +2,7 @@
 
 _2021-10-31_
 
-image::../images/lfd254.png[https://trainingportal.linuxfoundation.org/learn/certificates/containers-for-developers-and-quality-assurance?id=81c70cad-e1a4-4bab-8113-874004a1d5e9]
+image::../images/lfd254-2021.png[https://trainingportal.linuxfoundation.org/learn/certificates/containers-for-developers-and-quality-assurance?id=81c70cad-e1a4-4bab-8113-874004a1d5e9]
 
 Another course from link:https://linuxfoundation.org/[The Linux Foundation]: link:https://trainingportal.linuxfoundation.org/learn/course/containers-for-developers-and-quality-assurance[Containers for Developers and Quality Assurance (LFD254)]. It's quite long and covers very wide range of topics starting from how containers actually works and finishing with how to setup CICD in Kubetneres. I find the course useful for different roles for several reasons:
 
