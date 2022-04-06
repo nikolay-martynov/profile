@@ -90,7 +90,7 @@ toc::[]
 - соответствие индустриальным стандартам (3GPP, TMF, ITU-T, ONAP)
 - юридические и экономические особенности использования библиотек с открытым кодом
 
-Ключевые технологии и методологии: Groovy, Java, C++, Bash/POSIX shell, Asciidoctor, Gradle, Maven, Autoconf/Automake, JSON, XML, XSLT, XSD, REST, SOAP, WSDL, JMS, ActiveMQ, Kafka, SNMP, plain TCP, Docker, Spring, Camel, Apache commons, Spock, Boost, Poco, Linux, HP-UX, Jenkins, Nexus, GitHub, Subversion, Jira, Wekan, Titra, Scrum, Kanban, Kaizen, WORST, SAFe, TDD
+Ключевые технологии и методологии: Groovy, Java, C++, Bash/POSIX shell, Asciidoctor, Gradle, Maven, Autoconf/Automake, JSON, XML, XSLT, XSD, REST, SOAP, WSDL, JMS, ActiveMQ, Kafka, SNMP, plain TCP, Docker, Spring, Camel, Apache commons, CXF, Spock, Boost, Poco, Hibernate, Derby, Linux (RHEL), HP-UX, Jenkins, Nexus, GitHub, Subversion, Jira, Wekan, Titra, Scrum, Kanban, Kaizen, WORST, SAFe, TDD
 |Different positions since May 2009 up to present day, more than 12 years
 
 * Technical Lead (August 2015 - Present, more than 6 years)
@@ -187,7 +187,7 @@ image:images/author-certificate-fips.jpg[Authorship certificate for software for
 - Анализ и обеспечение информационной безопасности
 - Разработка сопутствующего инструментария для отдела маркетинга
 
-Ключевые технологии: Python, MySQL, HTML, CSS, Bash, Linux, HTTPD, ProFTPD, Snort, Tripwire, Metasploit, Nmap, NIST NVD, Secunia
+Ключевые технологии: Python, MySQL, HTML, CSS, Bash, Linux (Mandriva), HTTPD, ProFTPD, Snort, Tripwire, Metasploit, Nmap, NIST NVD, Secunia
 
 |* Web developer, part time (January 2005 - May 2006, 1 year 5 months)
 +
@@ -201,7 +201,15 @@ image:images/author-certificate-fips.jpg[Authorship certificate for software for
 [cols=".^1a,.^1a"]
 |===
 
-|Не указано в трудовой книжке
+|Амбиз
+
+Стажёр, совместительство, окрябрь 2004 - октябрь 2005, 1 год 1 месяц
+
+- Развитие и сопровождение движка web сайта с каталогом продукции
+- Автоматизация технологических процессов (например, учет и запись звонков между клиентами и сотрудниками отдела продаж)
+- Автоматизированное развертывание рабочих мест, поддержка пользователей
+
+Ключевые технологии: PHP, C++, Scheme, HTML, MySQL, WBAT, Bash, Linux (Gentoo)
 |* Programmer, part time (October 2004 - October 2005, 1 year 1 month)
 +
 --
@@ -234,7 +242,13 @@ image:images/author-certificate-fips.jpg[Authorship certificate for software for
 [cols=".^1a,.^1a"]
 |===
 
-|Не указано в трудовой книжке
+|Интрон Плюс
+
+Стажёр, совместительство, сентябрь 2002 - декабрь 2003, 1 год 4 месяца
+
+- Участие в разработке подсистемы приема, подготовки, классификации и хранения данных для программно-аппаратного комплекса снаряда-дефектоскопа для внутритрубной диагностики
+
+Ключевые технологии: С++, Linux (Alt)
 |* Junior Programmer, part time (September 2002 - December 2003, 1 year 4 months)
 +
 --
@@ -248,7 +262,13 @@ image:images/author-certificate-fips.jpg[Authorship certificate for software for
 [cols=".^1a,.^1a"]
 |===
 
-|Не указано в трудовой книжке
+|Московский Энергетический Институт (технический университет)
+
+Лаборант-стажёр, совместительство, сентябрь 2001 - август 2002, 1 год
+
+- Разработан и введен в эксплуатацию программный комплекс учета и контроля персонифицированного потребления студентами и преподавателями расходных матерьялов при печати (количество тонера, количество бумаги)
+
+Ключевые технологии: C++, Bash, Linux (Alt)
 |* Laboratory assistant, part time (September 2001 - August 2002, 1 year)
 +
 --
