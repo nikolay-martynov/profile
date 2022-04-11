@@ -91,7 +91,7 @@ toc::[]
 - соответствие индустриальным стандартам (3GPP, TMF, ITU-T, ONAP)
 - юридические и экономические особенности использования библиотек с открытым кодом
 
-Ключевые технологии и методологии: Groovy, Java, C++, Bash/POSIX shell, Asciidoctor, Gradle, Maven, Autoconf/Automake, JSON, XML, XSLT, XSD, REST, SOAP, WSDL, JMS, ActiveMQ, Kafka, SNMP, plain TCP, Docker, Spring, Camel, Apache commons, CXF, Spock, Boost, Poco, Hibernate, Derby, Linux (RHEL), HP-UX, Jenkins, Nexus, GitHub, Subversion, Jira, Wekan, Titra, Scrum, Kanban, Kaizen, WORST, SAFe, TDD
+Ключевые технологии и методологии: Groovy, Java, {cpp}, Bash/POSIX shell, Asciidoctor, Gradle, Maven, Autoconf/Automake, JSON, XML, XSLT, XSD, REST, SOAP, WSDL, JMS, ActiveMQ, Kafka, SNMP, plain TCP, Docker, Spring, Camel, Apache commons, CXF, Spock, Boost, Poco, Hibernate, Derby, Linux (RHEL), HP-UX, Jenkins, Nexus, GitHub, Subversion, Jira, Wekan, Titra, Scrum, Kanban, Kaizen, WORST, SAFe, TDD
 |Different positions since May 2009 up to present day, more than 12 years
 
 * Technical Lead (August 2015 - Present, more than 6 years)
@@ -102,7 +102,7 @@ Defining and implementing technology strategy in a subdivision working in the fi
 - Maintaining and improving teams motivation and productivity using Kaizen and WORST. Examples are use of agile development methodologies like SAFe and highly visible Kanban radiators, self-managed cross-functional teams, collective code, failure and success ownership, automatization of development processes.
 - Developing or helping to develop solution and system architecture following feasibility and cost analysis in pre-sale support. This also includes design of particular application or subsystem both alone and just helping respective application architect. Results are system decomposition, more precise workload estimation, interfaces definition, selection of technologies to be applied, high level description of subsystems and algorithms to be coded, list of particular engineering tasks to be finished.
 - Helping teams to resolve technological issues. Examples include suggestion of not so well-known language and tool features, alternate implementations, algorithms and tools. Sometimes an obstacle is removed by understanding and accepting a trade-off, a change in this or that characteristic of the system or part of the system.
-- Developing technologically complex subsystems starting with interface definition (Javadoc); sometimes utilizing test-driven development (TDD); coding in technologies like Java, Groovy, C++, Spring, Camel, Web services, XSLT; unit testing including mocking; developing automated functional and load tests in Shell, Perl, Groovy. Target platforms are mostly Unix flavors like HP-UX and Linux.
+- Developing technologically complex subsystems starting with interface definition (Javadoc); sometimes utilizing test-driven development (TDD); coding in technologies like Java, Groovy, {cpp}, Spring, Camel, Web services, XSLT; unit testing including mocking; developing automated functional and load tests in Shell, Perl, Groovy. Target platforms are mostly Unix flavors like HP-UX and Linux.
 - Troubleshooting and resolving escalated support cases both by helping support teams analyze available information and sometimes by doing remote live production system debug.
 --
 * Technology Consultant Expert, July 2012 - August 2015 (3 years 2 months)
@@ -110,7 +110,7 @@ Defining and implementing technology strategy in a subdivision working in the fi
 --
 * As an application architect, I'm responsible for gathering requirements from customers and business stakeholders, mixing this together with constraints at hand and coming up with the solution that could be delivered as close as possible to expectations of key stakeholders within given time frame and budget. Additionally, I'm responsible for supporting sale teams and solution architects in aspects related to my area of expertise. I specialize in mediation software for OSS domain: integrating together products from HP and other systems that customers might have. I'm also responsible for supporting delivery teams as a Java and application integration technology expert.
 * As a project technical lead, I'm responsible for the technical aspects of the delivery: breakdown of requirements and large feature requests into tasks, workload estimation and planning aid, development of design and test strategy, ensuring completeness of task execution and target quality level of result, solving hard technical problems and finding workarounds for obstacles that can't be completely removed, defining engineering practices and infrastructure that should be put in place for best result. In this role I'm responsible for several versions of HP OSS Open Mediation.
-* As an application developer, I work on unit tests and automated functional tests; maintain continuous integration infrastructure and build/test environment; write code, technical and user documentation; investigate defect reports and maintain products. Primary technology is Java but numerous other technologies are also essential part. These include Groovy, C++, Perl, UNIX shell (POSIX, HP-UX, Linux), XML/XSD/XSLT, Spring Framework, Apache Commons/Camel/ActiveMQ/CXF, Jenkins/Nexus.
+* As an application developer, I work on unit tests and automated functional tests; maintain continuous integration infrastructure and build/test environment; write code, technical and user documentation; investigate defect reports and maintain products. Primary technology is Java but numerous other technologies are also essential part. These include Groovy, {cpp}, Perl, UNIX shell (POSIX, HP-UX, Linux), XML/XSD/XSLT, Spring Framework, Apache Commons/Camel/ActiveMQ/CXF, Jenkins/Nexus.
 * As a consultant, I'm responsible for delivering trainings and providing consulting services related to development of integration solutions.
 * As a member of CTO and technology SPOC I'm responsible for implementing technology strategy in delivery center.
 --
@@ -210,11 +210,11 @@ image:images/author-certificate-fips.jpg[Authorship certificate for software for
 - Автоматизация технологических процессов (например, учет и запись звонков между клиентами и сотрудниками отдела продаж)
 - Автоматизированное развертывание рабочих мест, поддержка пользователей
 
-Ключевые технологии: PHP, C++, Scheme, HTML, MySQL, WBAT, Bash, Linux (Gentoo)
+Ключевые технологии: PHP, {cpp}, Scheme, HTML, MySQL, WBAT, Bash, Linux (Gentoo)
 |* Programmer, part time (October 2004 - October 2005, 1 year 1 month)
 +
 --
-* Developing website (php, MySQL); developing software for business process automation (bash, c++, wbat); administrating workstations (windows, gentoo linux); user support.
+* Developing website (php, MySQL); developing software for business process automation (bash, {cpp}, wbat); administrating workstations (windows, gentoo linux); user support.
 * Developed and introduced into commercial operation web based catalog of products. Developed and introduced into commercial operation software for recording telephone conversations with customers.
 --
 
@@ -253,7 +253,7 @@ image:images/author-certificate-fips.jpg[Authorship certificate for software for
 |* Junior Programmer, part time (September 2002 - December 2003, 1 year 4 months)
 +
 --
-* Developing subsystem for data input, clustering and storage (c++).
+* Developing subsystem for data input, clustering and storage ({cpp}).
 --
 
 |===
@@ -269,11 +269,11 @@ image:images/author-certificate-fips.jpg[Authorship certificate for software for
 
 - Разработан и введен в эксплуатацию программный комплекс учета и контроля персонифицированного потребления студентами и преподавателями расходных материалов при печати (количество тонера, количество бумаги)
 
-Ключевые технологии: C++, Bash, Linux (Alt)
+Ключевые технологии: {cpp}, Bash, Linux (Alt)
 |* Laboratory assistant, part time (September 2001 - August 2002, 1 year)
 +
 --
-* Developing software (c++, bash, alt linux).
+* Developing software ({cpp}, bash, alt linux).
 * Developed and introduced into commercial operation software complex "Print server", providing control and accounting for consumption of paper and ink in multi-user environment.
 --
 
@@ -425,7 +425,7 @@ In order of peers recognition per LinkedIn:
 * Unix
 * HP-UX
 * Telecommunications
-* C++
+* {cpp}
 * Integration
 * Solution Architecture
 * Unit Testing
