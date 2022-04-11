@@ -6,6 +6,16 @@ Since LinkedIn is unavailable in Russia, SkillsNet`s operator is under sanctions
 
 toc::[]
 
+== About me
+
+[cols=".^1a,.^1a"]
+|===
+
+|Начинал с {cpp}. Как водится, был и PHP, и Python. Последние 16 лет "инвестировал" в экосистему Java (но и задач на {cpp} тоже хватало). Вел массовую разработку корпоративного софта от гос. органов России до операторов связи в США. Полный цикл разработки решений от сбора требований до сопровождения продуктов. Имею опыт индивидуальной разработки, работы в команде и опыт технического руководства командой. Тяготею к lean, agile, TDD.
+|I've started with {cpp} but, as it often happened during those times, I've had my share of PHP and Python. For the last 16 years, I've been heavily "investing" in the Java ecosystem (while still having enough {cpp} tasks). I was involved in mass-producing enterprise software for customers varying from the Russian government to mobile operators in the USA. I had experienced a full cycle from requirements discovery to customer support. This experience covers individual development, working within a team and taking technical leadership to bring team to success. I find lead, agile and TDD to bring positive results quite often.
+
+|===
+
 == Articles, posts and events
 
 * link:blog/2022-04-11-Practical-Python-for-DevOps-Engineers.adoc[Practical Python for DevOps Engineers]
