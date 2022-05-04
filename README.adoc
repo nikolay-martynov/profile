@@ -18,6 +18,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2022-05-04-Grokking-algorithms.adoc[Грокаем алгоритмы]
 * link:blog/2022-04-11-Practical-Python-for-DevOps-Engineers.adoc[Practical Python for DevOps Engineers]
 * link:blog/2021-10-31-Containers-for-Developers-and-Quality-Assurance-LFD254.adoc[Containers for Developers and Quality Assurance (LFD254)]
 * link:blog/2021-09-08-Open-Source-Licensing-Basics-for-Software-Developers-LFC191.adoc[Open Source Licensing Basics for Software Developers (LFC191)]
