@@ -16,6 +16,18 @@ toc::[]
 
 |===
 
+== Social networks and links
+
+* My GitHub link:https://github.com/nikolay-martynov/profile[home page]
+* My GitHub link:https://github.com/nikolay-martynov[profile and contributions overview]
+* My SkillsNet link:https://skillsnet.ru/users/nikolay_s_martynov[profile]
+* My Habr link:https://habr.com/ru/users/nikolaysmartynov/posts/[posts]
+* My VK link:https://vk.com/nikolay.s.martynov[profile]
+* My Credly link:https://www.credly.com/users/nikolay-martynov[badges]
+* My Habr Career link:https://career.habr.com/nikolaysmartynov1[profile]
+* My LinkedIn link:https://www.linkedin.com/in/nikolaymartynov/[profile]
+* My OK link:https://ok.ru/nikolay.s.martynov[profile]
+
 == Articles, posts and events
 
 * link:blog/2022-05-21-Programming-theorems-and-exercises.adoc[Программирование: теоремы и задачи]
@@ -414,14 +426,6 @@ link:university/kursovik.pdf[Пояснительная записка]
 исследуется  применение нейронной  сети  типа многослойный персептрон  с
 обучением по алгоритму RPROP.
 --
-
-== Extra information
-
-* My GitHub link:https://github.com/nikolay-martynov[contributions overview]
-* My LinkedIn link:https://www.linkedin.com/in/nikolaymartynov/[profile]
-* My Credly link:https://www.credly.com/users/nikolay-martynov[badges]
-* My VK link:https://vk.com/nikolay.s.martynov[profile]
-* My OK link:https://ok.ru/nikolay.s.martynov[profile]
 
 == Skills
 
