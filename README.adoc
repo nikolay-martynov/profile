@@ -30,6 +30,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2022-06-07-Java-coding-problems.adoc[Java. Решение практических задач]
 * link:blog/2022-05-21-Programming-theorems-and-exercises.adoc[Программирование: теоремы и задачи]
 * link:blog/2022-05-04-Grokking-algorithms.adoc[Грокаем алгоритмы]
 * link:blog/2022-04-11-Practical-Python-for-DevOps-Engineers.adoc[Practical Python for DevOps Engineers]
