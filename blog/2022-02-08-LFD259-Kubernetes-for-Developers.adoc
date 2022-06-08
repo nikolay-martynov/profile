@@ -1,0 +1,11 @@
+= LFD259: Kubernetes for Developers
+
+_2022-02-08_
+
+Another nice course from The Linux Foundation: https://training.linuxfoundation.org/training/kubernetes-for-developers/
+
+You start with the basics but it does not lock you into Docker. Instead, alternative engines are well introduced during initial chapters. Then it continues with Kubernetes specifics: specs, volumes, claims, config maps, secrets, labels, clusterIP, NodePort and so on. Big chunk of the course are security and troubleshooting. Which is nice because both are always needed even when you think they're not the first concern.
+
+Labs scenario are nice. You can do those not only with a free Google account but also with your own minikube and using https://labs.play-with-k8s.com/
+
+image:../images/lfd259-2022.png[]
