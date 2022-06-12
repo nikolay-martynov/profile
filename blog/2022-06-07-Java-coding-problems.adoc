@@ -108,9 +108,9 @@ Instant correct = local.atZone(ZoneId.systemDefault()).toInstant();
 Частенько автор противоречит Javadoc. Например, при описании `ExecutorService.invokeAll()` написано:
 
 [quote]
-первый вызов метода `Feature.get` блокирует до тех пор, пока не будут завершены все экземпляры `Feature`
+первый вызов метода `Future.get` блокирует до тех пор, пока не будут завершены все экземпляры `Future`
 
-То есть, как будто между разными `Feature` есть какая-то связь и они друг друга ждут. На самом деле ничего такого не происходит, а блокируется не столько `Feature.get()`, сколько `link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ExecutorService.html#invokeAll(java.util.Collection)[ExecutorService.invokeAll]`.
+То есть, как будто между разными `Future` есть какая-то связь и они друг друга ждут. На самом деле ничего такого не происходит, а блокируется не столько `Future.get()`, сколько `link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/ExecutorService.html#invokeAll(java.util.Collection)[ExecutorService.invokeAll]`.
 
 Ну или другой пример расхождения с официальной документацией - это секция про `StampedLock` и оптимистическую блокировку. Весь смысл оптимистичных блокировок в отсутствии блокировок. В данном случае, если очень много читателей, то писатель может ждать слишком долго, особенно для non-fair случая по умолчанию. Так вот `StampedLock` как раз и позволяет избежать блокировки писателя. Правильный пример кода можно найти в link:https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/locks/StampedLock.html[официальной документации]:
 
