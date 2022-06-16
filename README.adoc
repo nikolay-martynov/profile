@@ -346,13 +346,13 @@ image::images/cks-2021.jpg[,400]
 ** July 2013
 ** Silver winner in category "Highly capable & innovative"
 +
-image::images/2013-hp-silver-rock-star-small.png[link=images/2013-hp-silver-rock-star.png]
+image::images/2013-hp-silver-rock-star-small.png[link=images/2013-hp-silver-rock-star.png,400]
 
 * Agile Project Management: P&G Certified Scrum Master
 ** August 2012
 ** Procter & Gamble for Hewlett-Packard
 +
-image::images/2012-08-29-pg-certified-scrum-master.png[link=images/Martinov_Nickolay_PG_Scrum_Certification.pdf]
+image::images/2012-08-29-pg-certified-scrum-master.png[link=images/Martinov_Nickolay_PG_Scrum_Certification.pdf,400]
 
 * JB439: Red Hat JBoss Fuse with Red Hat JBoss A-MQ and Camel
 ** October 2012
