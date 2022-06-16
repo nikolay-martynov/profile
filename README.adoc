@@ -342,13 +342,17 @@ image::images/cks-2021.jpg[,400]
 ** February 2020
 ** Contributed code to link:https://github.com/HewlettPackard/phased-table-translation[HewlettPackard/phased-table-translation] in the 2020 GitHub Archive Program
 
-* Agile Project Management: P&G Certified Scrum Master
-** January 2015
-** Internal certification in Hewlett-Packard
-
-* HP Application and Business Services Leading the Way Rock Star
+* HP Applications and Business Services Leading the Way Rock Star
 ** July 2013
 ** Silver winner in category "Highly capable & innovative"
++
+image::images/2013-hp-silver-rock-star-small.png[link=images/2013-hp-silver-rock-star.png]
+
+* Agile Project Management: P&G Certified Scrum Master
+** August 2012
+** Procter & Gamble for Hewlett-Packard
++
+image::images/2012-08-29-pg-certified-scrum-master.png[link=images/Martinov_Nickolay_PG_Scrum_Certification.pdf]
 
 * JB439: Red Hat JBoss Fuse with Red Hat JBoss A-MQ and Camel
 ** October 2012
