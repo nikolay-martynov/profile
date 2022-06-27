@@ -123,6 +123,9 @@ toc::[]
 - юридические и экономические особенности использования библиотек с открытым кодом
 
 Ключевые технологии и методологии: Groovy, Java, {cpp}, Bash/POSIX shell, Asciidoctor, Gradle, Maven, Autoconf/Automake, JSON, XML, XSLT, XSD, REST, SOAP, WSDL, JMS, ActiveMQ, Kafka, SNMP, plain TCP, Docker, Spring, Camel, Apache commons, CXF, Spock, Boost, Poco, Hibernate, Derby, Linux (RHEL), HP-UX, Jenkins, Nexus, GitHub, Subversion, Jira, Wekan, Titra, Scrum, Kanban, Kaizen, WORST, SAFe, TDD
+
+image:images/Рекомендательное-письмо-HPE-без-телефона.jpg[link=images/Рекомендательное-письмо-HPE-без-телефона.jpg]
+
 |Different positions since May 2009 up to present day, more than 12 years
 
 * Technical Lead (August 2015 - Present, more than 6 years)
