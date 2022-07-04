@@ -30,6 +30,7 @@ toc::[]
 
 == Articles, posts and events
 
+* link:blog/2022-07-04-HP.adoc[Хьюлетт Паккард]
 * link:blog/2022-06-30-Algorithms-illuminated-dynamic.adoc[Совершенный алгоритм. Жадные алгоритмы и динамическое программирование]
 * link:blog/2022-06-23-Algorithms-illuminated-graph.adoc[Совершенный алгоритм. Графовые алгоритмы и структуры данных]
 * link:blog/2022-06-12-Algorithms-illuminated-basics.adoc[Совершенный алгоритм. Основы]
