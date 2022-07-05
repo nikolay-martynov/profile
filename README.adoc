@@ -86,7 +86,7 @@ toc::[]
 [cols=".^1a,.^1a"]
 |===
 
-|Менеджер по разработке программного обеспечения (разные должности с мая 2009, больше 12 лет)
+|Менеджер по разработке программного обеспечения (разные должности с мая 2009 по июль 2022, больше 13 лет)
 
 Полный цикл разработки и поддержки интеграционных решений в сфере систем эксплуатационной поддержки (Operations Support Systems) для операторов связи по всему миру (единоличное ведение всего проекта; в составе команды разработчиков; техническое руководство командой разработчиков):
 
@@ -126,9 +126,9 @@ toc::[]
 
 image:images/Рекомендательное-письмо-HPE-без-телефона.jpg[link=images/Рекомендательное-письмо-HPE-без-телефона.jpg]
 
-|Different positions since May 2009 up to present day, more than 12 years
+|Different positions since May 2009 up to July 2022, more than 13 years
 
-* Technical Lead (August 2015 - Present, more than 6 years)
+* Technical Lead (August 2015 - July 2022, almost 7 years)
 +
 --
 Defining and implementing technology strategy in a subdivision working in the field of integration solutions for operations support systems primarily utilized by communication service providers. The goal is to make sure that business and management expectations are met by:
