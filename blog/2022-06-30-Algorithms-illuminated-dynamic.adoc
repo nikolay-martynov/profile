@@ -48,3 +48,9 @@ image::../images/2022-06-30-algorithms-illuminated-3-6.jpg[]
 Немного портит впечатление лишь работа переводчика, когда _связные графы_ вдруг превращаются в _замкнутые графики_, а потом обратно. Но общую оценку это не меняет.
 
 С полным оглавлением можно ознакомиться на сайте издательства: link:https://www.piter.com/collection/programmirovanie-osnovy-i-algoritmy/product/sovershennyy-algoritm-zhadnye-algoritmy-i-dinamicheskoe-programmirovanie#Oglavlenie-1[здесь].
+
+Отзывы об остальных частях серии:
+
+* link:https://habr.com/ru/post/671006/[Совершенный алгоритм. Основы]
+* link:https://habr.com/ru/post/673010/[Совершенный алгоритм. Графовые алгоритмы и структуры данных]
+* link:https://habr.com/ru/post/676708/[Совершенный алгоритм. Алгоритмы для NP-трудных задач]

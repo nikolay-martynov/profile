@@ -33,3 +33,9 @@ image:../images/2022-06-12-algorithms-illuminated-1-6.jpg[]
 Да, здесь нет 100500 видов сортировки, и это совсем не каталог. Но, если, например, чтение link:https://www.labirint.ru/books/695679/[Кнута] - это Труд, то "Совершенный алгоритм. Основы" - это просто интересное и увлекательное чтение.
 
 Ознакомиться с оглавлением можно на link:https://www.piter.com/collection/programmirovanie-osnovy-i-algoritmy/product/sovershennyy-algoritm-osnovy#Oglavlenie-1[сайте издательства].
+
+Отзывы об остальных частях серии:
+
+* link:https://habr.com/ru/post/673010/[Совершенный алгоритм. Графовые алгоритмы и структуры данных]
+* link:https://habr.com/ru/post/674352/[Совершенный алгоритм. Жадные алгоритмы и динамическое программирование]
+* link:https://habr.com/ru/post/676708/[Совершенный алгоритм. Алгоритмы для NP-трудных задач]
